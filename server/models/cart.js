@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     }, { timestamps: true, underscored: true });
 
     Cart.associate = (models) => {
-        Cart.belongsTo(models.user, { foreignKey: 'user_id' });
+        Cart.belongsTo(models.user, { foreignKey: 'User_id' });
     };
 
     return Cart;

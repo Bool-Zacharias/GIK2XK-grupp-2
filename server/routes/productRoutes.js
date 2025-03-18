@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const db = require('../models');
 
-// Hämta varukorg för en användare
-router.get('/:user_id', async (req, res) => {
+// Hämta alla produkter
+router.get('/', async (req, res) => {
     try {
         const cart = await db.Cart.findOne({ where: { user_id: req.params.user_id } });
         res.json(cart);
@@ -11,8 +11,26 @@ router.get('/:user_id', async (req, res) => {
     }
 });
 
+// Hämta specifik produkt + betyg
+router.get('/:id/', async (req, res) => {
+    try {
+        const cart = await db.Cart.findOne({ where: { user_id: req.params.user_id } });
+        res.json(cart);
+    } catch (err) {
+        res.status(500).json({ error: 'Ett fel uppstod vid hämtning av varukorg.' });
+    }
+});
+
+// lägga till post, byta ut put, ta bort delete
+
+// Post opp ge betyg till en produkt
+
+
+// post CRUD opperation
+
+
 // Lägg till produkt i varukorg
-router.post('/', async (req, res) => {
+router.post('/:id/', async (req, res) => {
     const { user_id, product_id, amount } = req.body;
     
     if (!user_id || !product_id || amount <= 0) {

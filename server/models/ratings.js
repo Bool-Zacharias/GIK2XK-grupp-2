@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     }, { timestamps: true, underscored: true });
 
     Rating.associate = (models) => {
-        Rating.belongsTo(models.Product, { foreignKey: 'product_id', onDelete: 'CASCADE' }); // FK till produkt
+        Rating.belongsTo(models.Product, { foreignKey: 'Product_id', onDelete: 'CASCADE' }); // FK till produkt
     };
 
     return Rating;

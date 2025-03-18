@@ -5,8 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     }, { timestamps: true, underscored: true });
 
     cartRow.associate = (models) => {
-        cartRow.belongsTo(models.Cart, { foreignKey: 'cart_id', onDelete: 'CASCADE' });  // FK till varukorg
-        cartRow.belongsTo(models.Product, { foreignKey: 'product_id' }); // FK till produkt
+        cartRow.belongsTo(models.Cart, { foreignKey: 'Cart_id', onDelete: 'CASCADE' });  // FK till varukorg
+        cartRow.belongsTo(models.Product, { foreignKey: 'Product_id' }); // FK till produkt
     };
 
     return cartRow;
