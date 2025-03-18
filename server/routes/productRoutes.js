@@ -25,8 +25,8 @@ router.get('/:id/', async (req, res) => {
 
 // Post opp ge betyg till en produkt
 
-// Lägg till eller uppdatera betyg på en produkt
-router.post('/:id/rating', async (req, res) => {
+// Lägg till betyg på en produkt
+router.post('/:id/addRating', async (req, res) => {
     const { rating } = req.body;
     const productId = req.params.id;
   
@@ -55,6 +55,8 @@ router.post('/:id/rating', async (req, res) => {
       res.status(500).json({ error: 'Något gick fel vid betygssättningen.' });
     }
   });
+
+  // Uppdatera betyg på en produkt
 
 // Radera produkt från varukorg
 router.delete('/:id', async (req, res) => {
