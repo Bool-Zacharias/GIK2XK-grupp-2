@@ -25,25 +25,36 @@ router.get('/:id/', async (req, res) => {
 
 // Post opp ge betyg till en produkt
 
-
-// post CRUD opperation
-
-
-// Lägg till produkt i varukorg
-router.post('/:id/', async (req, res) => {
-    const { user_id, product_id, amount } = req.body;
-    
-    if (!user_id || !product_id || amount <= 0) {
-        return res.status(400).json({ error: 'Ogiltiga indata.' });
+// Lägg till eller uppdatera betyg på en produkt
+router.post('/:id/rating', async (req, res) => {
+    const { rating } = req.body;
+    const productId = req.params.id;
+  
+    // Validera betyget
+    const invalidData = validate({ rating });
+    if (invalidData) {
+      return res.status(400).json(invalidData);
     }
-
+  
     try {
-        const cartRow = await db.CartRow.create({ cart_id: user_id, product_id, amount });
-        res.json(cartRow);
-    } catch (err) {
-        res.status(500).json({ error: 'Ett fel uppstod vid tillägg av produkt i varukorg.' });
+      // Kontrollera om produkten finns
+      const product = await db.Product.findByPk(productId);
+      if (!product) {
+        return res.status(404).json({ error: 'Produkten hittades inte' });
+      }
+  
+      // Skapa nytt betyg
+      const newRating = await db.Rating.create({
+        rating,
+        Product_id: productId
+      });
+  
+      res.status(201).json(newRating);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Något gick fel vid betygssättningen.' });
     }
-});
+  });
 
 // Radera produkt från varukorg
 router.delete('/:id', async (req, res) => {
