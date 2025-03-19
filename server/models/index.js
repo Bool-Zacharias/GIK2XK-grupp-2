@@ -36,28 +36,51 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-// Här nedan kan du lägga associationer direkt
-// efter att alla modeller har laddats in
-
-// 2. Hämta ut modellerna från db-objektet
+// Hämta ut modellerna från db-objektet
 const { User, Cart, CartRow, Product, Rating } = db;
 
-// 3. Definiera alla relationer här
-// Exempel (1:N) - En user kan ha många carts
-User.hasMany(Cart, { foreignKey: 'user_id' });
-Cart.belongsTo(User, { foreignKey: 'user_id' });
+// Definiera associationerna med CASCADE och icke-nullade foreign keys
 
-// (1:N) - En cart kan ha många cart_rows
-Cart.hasMany(CartRow, { foreignKey: 'cart_id' });
-CartRow.belongsTo(Cart, { foreignKey: 'cart_id' });
+// En User har många Carts. Här sätts foreign key 'user_id' i Cart.
+// Vi specificerar både allowNull: false och onDelete: 'CASCADE' för att tvinga med referensintegritet.
+User.hasMany(Cart, { 
+  foreignKey: { name: 'user_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
+Cart.belongsTo(User, { 
+  foreignKey: { name: 'user_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
 
-// (1:N) - En produkt kan ha många cart_rows
-Product.hasMany(CartRow, { foreignKey: 'product_id' });
-CartRow.belongsTo(Product, { foreignKey: 'product_id' });
+// En Cart har många CartRows. Vid borttagning av en Cart raderas alla CartRows.
+Cart.hasMany(CartRow, { 
+  foreignKey: { name: 'cart_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
+CartRow.belongsTo(Cart, { 
+  foreignKey: { name: 'cart_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
 
-// (1:N) - En produkt kan ha många ratings
-Product.hasMany(Rating, { foreignKey: 'product_id' });
-Rating.belongsTo(Product, { foreignKey: 'product_id' });
+// En Product kan ha många CartRows. Om en Product tas bort (om det är meningsfullt) så tas även raderna bort.
+Product.hasMany(CartRow, { 
+  foreignKey: { name: 'product_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
+CartRow.belongsTo(Product, { 
+  foreignKey: { name: 'product_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
+
+// En Product kan ha många Ratings. Vid borttagning av en produkt raderas också betygen.
+Product.hasMany(Rating, { 
+  foreignKey: { name: 'product_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
+Rating.belongsTo(Product, { 
+  foreignKey: { name: 'product_id', allowNull: false },
+  onDelete: 'CASCADE'
+});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
