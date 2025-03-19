@@ -1,6 +1,19 @@
 const router = require('express').Router();
 const db = require('../models');
 const product = require('../models/product');
+const validate = require('validate.js');
+
+const constraints = {
+  description: {
+    length: {
+    minimum: 5,
+    maximum: 200,
+    tooShort: '^Beskrivningen måste vara minst %{count} tecken lång.',
+    tooLong: '^Beskrivningen får inte vara längre än %{count} tecken lång.'
+    }
+},
+
+};
 
 //Hämta alla produkter
 router.get('/', (req, res) => {
@@ -16,11 +29,17 @@ router.get('/:id/', (req,res) => {
   });
 });
 
-//Lägg till produkt
+//Lägga till
 router.post('/', (req, res) => {
-db.Product.create(req.body).then((result) => {
+  const product = req.body;
+  const invalidData = validate(product, constraints);
+  if (invalidData) {
+    res.status(400).json(invalidData);
+  } else {
+  db.Product.create(product).then((result) => {
     res.send(result);
   });
+}
 });
 
 //Lägg till betyg på produkt
