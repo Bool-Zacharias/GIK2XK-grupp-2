@@ -10,6 +10,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
+app.use('/product', require('./routes/productRoutes'));
+app.use('/user', require('./routes/userRoutes'));
+
+
 module.exports = app;
 
 //AAAAA
