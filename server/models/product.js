@@ -3,8 +3,8 @@ module.exports = (sequelize, DataTypes) => {
         id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         description: { type: DataTypes.STRING },
         price: { type: DataTypes.DOUBLE, allowNull: false },
-        created_at: {type: DataTypes.DATE},
-        updated_at: {type: DataTypes.DATE},
+        /* created_at: {type: DataTypes.DATE},
+        updated_at: {type: DataTypes.DATE}, */ 
         imageUrl: { type: DataTypes.STRING}
     });
 

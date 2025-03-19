@@ -1,6 +1,43 @@
 const router = require('express').Router();
 const db = require('../models');
 
+//Hämta
+router.get('/', (req, res) => {
+db.Product.findAll().then((result) => {
+    res.send(result);
+  });
+});
+
+//Lägga till
+router.post('/', (req, res) => {
+db.Product.create(req.body).then((result) => {
+    res.send(result);
+  });
+});
+
+//Ändra
+router.put('/', (req, res) => {
+db.Product.update(req.body, {
+    where: 
+    { id: req.body.id }
+  })
+  .then((result) => {
+    res.send(result);
+  });
+});
+
+//Ta bort
+router.delete('/', (req, res) => {
+ db.Product
+ .destroy({
+    where: { id: req.body.id }
+  })
+  .then((result) => {
+    res.json(`Produkten raderades ${result}`);
+  }); 
+});
+
+/*
 // Hämta alla produkter
 router.get('/', async (req, res) => {
     try {
@@ -71,5 +108,5 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ error: 'Ett fel uppstod vid borttagning av produkt.' });
     }
 });
-
+*/
 module.exports = router;
