@@ -4,9 +4,6 @@ module.exports = (sequelize, DataTypes) => {
         payed: { type: DataTypes.BOOLEAN, defaultValue: false }
     }, { timestamps: true, underscored: true });
 
-    Cart.associate = (models) => {
-        Cart.belongsTo(models.user, { foreignKey: 'User_id' });
-    };
 
     return Cart;
 };

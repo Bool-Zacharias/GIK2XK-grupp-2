@@ -4,9 +4,7 @@ module.exports = (sequelize, DataTypes) => {
         rating: { type: DataTypes.FLOAT, allowNull: false, validate: { min: 1, max: 5 } }
     }, { timestamps: true, underscored: true });
 
-    Rating.associate = (models) => {
-        Rating.belongsTo(models.Product, { foreignKey: 'Product_id', onDelete: 'CASCADE' }); // FK till produkt
-    };
+    
 
     return Rating;
 };

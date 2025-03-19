@@ -23,7 +23,9 @@ if (config.use_env_variable) {
 fs.readdirSync(__dirname)
   .filter((file) => {
     return (
-      file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js'
+      file.indexOf('.') !== 0 && 
+      file !== basename && 
+      file.slice(-3) === '.js'
     );
   })
   .forEach((file) => {
@@ -34,11 +36,28 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-Object.keys(db).forEach((modelName) => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
-  }
-});
+// Här nedan kan du lägga associationer direkt
+// efter att alla modeller har laddats in
+
+// 2. Hämta ut modellerna från db-objektet
+const { User, Cart, CartRow, Product, Rating } = db;
+
+// 3. Definiera alla relationer här
+// Exempel (1:N) - En user kan ha många carts
+User.hasMany(Cart, { foreignKey: 'user_id' });
+Cart.belongsTo(User, { foreignKey: 'user_id' });
+
+// (1:N) - En cart kan ha många cart_rows
+Cart.hasMany(CartRow, { foreignKey: 'cart_id' });
+CartRow.belongsTo(Cart, { foreignKey: 'cart_id' });
+
+// (1:N) - En produkt kan ha många cart_rows
+Product.hasMany(CartRow, { foreignKey: 'product_id' });
+CartRow.belongsTo(Product, { foreignKey: 'product_id' });
+
+// (1:N) - En produkt kan ha många ratings
+Product.hasMany(Rating, { foreignKey: 'product_id' });
+Rating.belongsTo(Product, { foreignKey: 'product_id' });
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
