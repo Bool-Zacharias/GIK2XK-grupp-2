@@ -1,21 +1,41 @@
 const router = require('express').Router();
 const db = require('../models');
+const product = require('../models/product');
 
-//Hämta
+//Hämta alla produkter
 router.get('/', (req, res) => {
 db.Product.findAll().then((result) => {
     res.send(result);
   });
 });
 
-//Lägga till
+// Hämta specifik produkt med id
+router.get('/:id/', (req,res) => {
+  db.Product.findById(req.params.id).then((result)=>{
+    res.send(result);
+  });
+});
+
+//Lägg till produkt
 router.post('/', (req, res) => {
 db.Product.create(req.body).then((result) => {
     res.send(result);
   });
 });
 
-//Ändra
+//Lägg till betyg på produkt
+router.post('/:id/addRating', (req, res) => {
+  db.Product.findById(req.params.id)
+  .then((result) => {
+      product.ratings.push(rating);
+      return result.save();
+    })
+  .then((result)=>{
+    res.send(result);
+  });
+});
+
+//Ändra produkt
 router.put('/', (req, res) => {
 db.Product.update(req.body, {
     where: 
@@ -26,7 +46,7 @@ db.Product.update(req.body, {
   });
 });
 
-//Ta bort
+//Ta bort produkt
 router.delete('/', (req, res) => {
  db.Product
  .destroy({
