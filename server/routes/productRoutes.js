@@ -76,76 +76,91 @@ router.delete('/', (req, res) => {
   }); 
 });
 
-/*
-// Hämta alla produkter
-router.get('/', async (req, res) => {
-    try {
-        const cart = await db.Cart.findOne({ where: { user_id: req.params.user_id } });
-        res.json(cart);
-    } catch (err) {
-        res.status(500).json({ error: 'Ett fel uppstod vid hämtning av varukorg.' });
+//productRoute för varukorgen addProduct
+
+router.post('/addProduct', async (req, res) => {
+  try {
+    // Förväntar sig att body innehåller: userId, productId, amount
+    const { userId, productId, amount } = req.body;
+    
+    // Validera att alla nödvändiga fält är med
+    if (!userId || !productId || !amount) {
+      return res.status(400).json({ error: 'userId, productId och amount krävs.' });
     }
-});
-
-// Hämta specifik produkt + betyg
-router.get('/:id/', async (req, res) => {
-    try {
-        const cart = await db.Cart.findOne({ where: { user_id: req.params.user_id } });
-        res.json(cart);
-    } catch (err) {
-        res.status(500).json({ error: 'Ett fel uppstod vid hämtning av varukorg.' });
-    }
-});
-
-// lägga till post, byta ut put, ta bort delete
-
-// Post opp ge betyg till en produkt
-
-// Lägg till betyg på en produkt
-router.post('/:id/addRating', async (req, res) => {
-    const { rating } = req.body;
-    const productId = req.params.id;
-  
-    // Validera betyget
-    const invalidData = validate({ rating });
-    if (invalidData) {
-      return res.status(400).json(invalidData);
-    }
-  
-    try {
-      // Kontrollera om produkten finns
-      const product = await db.Product.findByPk(productId);
-      if (!product) {
-        return res.status(404).json({ error: 'Produkten hittades inte' });
-      }
-  
-      // Skapa nytt betyg
-      const newRating = await db.Rating.create({
-        rating,
-        Product_id: productId
+    
+    // Hämta den senaste aktiva varukorgen för användaren.
+    // Här antas att en aktiv varukorg har purchaseCompleted satt till false.
+    const [cart, cartCreated] = await db.Cart.findOrCreate({
+      where: { user_id: userId, purchaseCompleted: false },
+      defaults: { user_id: userId, purchaseCompleted: false }
+    });
+    
+    // Kolla om produkten redan finns i varukorgen
+    const existingCartRow = await db.CartRow.findOne({
+      where: { cart_id: cart.id, product_id: productId }
+    });
+    
+    let cartRow;
+    if (existingCartRow) {
+      // Om produkten redan finns, uppdatera antalet
+      cartRow = await existingCartRow.update({
+        amount: existingCartRow.amount + parseInt(amount, 10)
       });
-  
-      res.status(201).json(newRating);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Något gick fel vid betygssättningen.' });
+    } else {
+      // Annars, skapa en ny rad i varukorgen
+      cartRow = await db.CartRow.create({
+        cart_id: cart.id,
+        product_id: productId,
+        amount: amount
+      });
     }
-  });
-
-  // Uppdatera betyg på en produkt
-
-// Radera produkt från varukorg
-router.delete('/:id', async (req, res) => {
-    try {
-        const deleted = await db.CartRow.destroy({ where: { id: req.params.id } });
-        if (deleted) {
-            res.json({ message: 'Produkt borttagen från varukorg.' });
-        } else {
-            res.status(404).json({ error: 'Produkten hittades inte i varukorgen.' });
-        }
-    } catch (err) {
-        res.status(500).json({ error: 'Ett fel uppstod vid borttagning av produkt.' });
-    }
+    
+    return res.status(200).json({
+      message: 'Produkt tillagd i varukorgen.',
+      cartId: cart.id,
+      cartRow: cartRow
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Något gick fel vid tillägg av produkten.' });
+  }
 });
-*/
+
+//lägga till i varukorgen
+router.post('/:id/addToCart', (req, res) => {
+  const { userId, amount } = req.body;
+
+  if (!userId || !amount) {
+    return res.status(400).json({ error: 'userId och amount krävs i request-body.' });
+  }
+
+  // Hämta produkten baserat på id från URL:en
+  db.Product.findByPk(req.params.id)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({ error: 'Produkten hittades inte.' });
+      }
+      // Hitta eller skapa en aktiv varukorg för användaren (purchase_completed = false)
+      return db.Cart.findOrCreate({
+        where: { user_id: userId, purchase_completed: false },
+        defaults: { user_id: userId, purchase_completed: false }
+      })
+      .then(([cart, created]) => {
+        // Skapa en ny CartRow som kopplar ihop produkten med varukorgen
+        return db.CartRow.create({
+          cart_id: cart.id,
+          product_id: product.id,
+          amount: amount
+        });
+      });
+    })
+    .then((cartRow) => {
+      res.json(cartRow);
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+});
+
+
 module.exports = router;
