@@ -79,14 +79,9 @@ router.delete('/', (req, res) => {
 //productRoute för varukorgen addProduct
 
 router.post('/addProduct', async (req, res) => {
-  try {
+  
     // Förväntar sig att body innehåller: userId, productId, amount
     const { userId, productId, amount } = req.body;
-    
-    // Validera att alla nödvändiga fält är med
-    if (!userId || !productId || !amount) {
-      return res.status(400).json({ error: 'userId, productId och amount krävs.' });
-    }
     
     // Hämta den senaste aktiva varukorgen för användaren.
     // Här antas att en aktiv varukorg har purchaseCompleted satt till false.
@@ -120,10 +115,7 @@ router.post('/addProduct', async (req, res) => {
       cartId: cart.id,
       cartRow: cartRow
     });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Något gick fel vid tillägg av produkten.' });
-  }
+  
 });
 
 //lägga till i varukorgen
