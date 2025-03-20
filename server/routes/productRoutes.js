@@ -130,10 +130,6 @@ router.post('/addProduct', async (req, res) => {
 router.post('/:id/addToCart', (req, res) => {
   const { userId, amount } = req.body;
 
-  if (!userId || !amount) {
-    return res.status(400).json({ error: 'userId och amount krävs i request-body.' });
-  }
-
   // Hämta produkten baserat på id från URL:en
   db.Product.findByPk(req.params.id)
     .then((product) => {
