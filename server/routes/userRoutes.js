@@ -14,14 +14,6 @@ const constraints = {
       message: '^E-postadressen är i ett felaktigt format.'
     }
   },
-  username: {
-    length: {
-      minimum: 3,
-      maximum: 50,
-      tooShort: '^Användarnamnet måste vara minst %{count} tecken långt.',
-      tooLong: '^Användarnamnet får inte vara längre än %{count} tecken långt.'
-    }
-  },
   password: {
     length: {
       minimum: 6,
@@ -32,7 +24,7 @@ const constraints = {
 
 // Hämta en specifik användare via ID
 router.get('/:id', (req, res) => {
-  db.user.findByPk(req.params.id, { attributes: { exclude: ['password'] } })
+  db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } })
     .then((user) => {
       if (user) {
         res.json(user);
@@ -44,7 +36,7 @@ router.get('/:id', (req, res) => {
 
 // Hämtar en cart med specifikt användar id och visar alla produkter i cart
 router.get('/:id/getCart/', (req, res) => {
-  db.user.findById(req.params.id).then((user) => {
+  db.User.findById(req.params.id).then((user) => {
     db.carts.findOne({
       where: { user_id: user.id },
       order: [["createdAt"]],
@@ -66,11 +58,12 @@ router.post('/', (req, res) => {
   if (invalidData) {
     res.status(400).json(invalidData);
   } else {
-    db.user.create(user).then((newUser) => {
-      res.status(201).json({ id: newUser.id, username: newUser.username, email: newUser.email });
+    db.User.create(user).then((newUser) => {
+      res.status(201).json({ id: newUser.id, email: newUser.email, first_Name: newUser.first_Name, last_Name: newUser.last_Name, created_At: newUser.created_At, updated_At: newUser.updated_At, password: newUser.password });
     });
   }
 });
+
 
 // Uppdatera användare
 router.put('/', (req, res) => {
@@ -79,14 +72,14 @@ router.put('/', (req, res) => {
   if (invalidData || !user.id) {
     res.status(400).json(invalidData || 'Id är obligatoriskt.');
   } else {
-    db.user.update(user, { where: { id: user.id } })
+    db.User.update(user, { where: { id: user.id } })
       .then(() => res.send('Användaren har uppdaterats.'));
   }
 });
 
 // Ta bort användare
 router.delete('/', (req, res) => {
-  db.user.destroy({ where: { id: req.body.id } })
+  db.User.destroy({ where: { id: req.body.id } })
     .then(() => res.json('Användaren har raderats.'));
 });
 
