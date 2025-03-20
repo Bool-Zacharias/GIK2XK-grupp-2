@@ -73,11 +73,10 @@ router.delete('/', (req, res) => {
   })
   .then((result) => {
     res.json(`Produkten raderades ${result}`);
-  }); 
+  });
 });
 
 //productRoute för varukorgen addProduct
-
 router.post('/addProduct', async (req, res) => {
   
     // Förväntar sig att body innehåller: userId, productId, amount
