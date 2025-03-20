@@ -30,13 +30,6 @@ const constraints = {
   }
 };
 
-// Hämta alla användare (administratörsfunktion)
-router.get('/', (req, res) => {
-  db.user.findAll({ attributes: { exclude: ['password'] } }).then((users) => {
-    res.json(users);
-  });
-});
-
 // Hämta en specifik användare via ID
 router.get('/:id', (req, res) => {
   db.user.findByPk(req.params.id, { attributes: { exclude: ['password'] } })
@@ -49,7 +42,24 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// Skapa en ny användare (Registrering)
+// Hämtar en cart med specifikt användar id och visar alla produkter i cart
+router.get('/:id/getCart/', (req, res) => {
+  db.user.findById(req.params.id).then((user) => {
+    db.carts.findOne({
+      where: { user_id: user.id },
+      order: [["createdAt"]],
+    }).then((cart) => {
+      db.cart_rows.findAll({
+        where: { cart_id: cart.id },
+        include: [{ model: db.products }],
+      }).then((cartItems) => {
+        res.send({ cart, products: cartItems });
+      });
+    });
+  });
+});
+
+// Skapa en ny användare 
 router.post('/', (req, res) => {
   const user = req.body;
   const invalidData = validate(user, constraints);
