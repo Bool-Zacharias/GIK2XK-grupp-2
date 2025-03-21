@@ -88,15 +88,16 @@ router.post('/:id/addToCart', (req, res) => {
       }
       // Hitta eller skapa en aktiv varukorg för användaren (purchase_completed = false)
       return db.Cart.findOrCreate({
-        where: { user_id: userId, purchase_completed: false },
-        defaults: { user_id: userId, purchase_completed: false }
+        where: { user_id: userId, payed: false },
+        defaults: { user_id: userId, payed: false }
       })
-      .then(([cart, created]) => {
+      .then(([cart]) => {
         // Skapa en ny CartRow som kopplar ihop produkten med varukorgen
         return db.CartRow.create({
           cart_id: cart.id,
           product_id: product.id,
-          amount: amount
+          amount: amount,
+          timestamps: true
         });
       });
     })
