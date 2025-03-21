@@ -2,6 +2,8 @@ const router = require('express').Router();
 const db = require('../models');
 const product = require('../models/product');
 const validate = require('validate.js');
+const productServices = require("../services/productService");
+
 
 const constraints = {
   description: {
