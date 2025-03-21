@@ -84,36 +84,31 @@ router.delete('/', (req, res) => {
 
 //lägga till i varukorgen
 router.post('/:id/addToCart', (req, res) => {
-  const { userId, amount } = req.body;
+  const { user_id, amount } = req.body;
 
-  // Hämta produkten baserat på id från URL:en
   db.Product.findByPk(req.params.id)
-    .then((product) => {
+    .then(product => {
       if (!product) {
         return res.status(404).json({ error: 'Produkten hittades inte.' });
       }
-      // Hitta eller skapa en aktiv varukorg för användaren (purchase_completed = false)
-      return productService /* db.Cart.findOrCreate({
-        where: { user_id: userId, payed: false },
-        defaults: { user_id: userId, payed: false }
-      }) */
-      .then(([cart]) => {
-        // Skapa en ny CartRow som kopplar ihop produkten med varukorgen
-        return db.CartRow.create({
-          cart_id: cart.id,
-          product_id: product.id,
-          amount: amount,
-          timestamps: true
-        });
-      });
+      return productService.findOrCreate(user_id)
+    .then(cartResult => {
+      const cart = cartResult.data;
+      return db.CartRow.create({
+      cart_id: cart.id,
+      product_id: product.id,
+      amount: Number(amount)
+    });
+  });
+
     })
-    .then((cartRow) => {
-      res.json(cartRow);
+    .then(cartRow => {
+      res.status(201).json(cartRow);
     })
-    .catch((error) => {
+    .catch(error => {
       res.status(500).json({ error: error.message });
     });
-});
+  });
 
 
 module.exports = router;
