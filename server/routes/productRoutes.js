@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require('../models');
 const product = require('../models/product');
 const validate = require('validate.js');
-const productServices = require("../services/productService");
+const productService = require("../services/productService");
 
 
 const constraints = {
@@ -93,10 +93,10 @@ router.post('/:id/addToCart', (req, res) => {
         return res.status(404).json({ error: 'Produkten hittades inte.' });
       }
       // Hitta eller skapa en aktiv varukorg för användaren (purchase_completed = false)
-      return db.Cart.findOrCreate({
+      return productService /* db.Cart.findOrCreate({
         where: { user_id: userId, payed: false },
         defaults: { user_id: userId, payed: false }
-      })
+      }) */
       .then(([cart]) => {
         // Skapa en ny CartRow som kopplar ihop produkten med varukorgen
         return db.CartRow.create({
