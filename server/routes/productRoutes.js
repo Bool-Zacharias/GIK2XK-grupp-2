@@ -24,22 +24,26 @@ db.Product.findAll().then((result) => {
 
 // Hämta specifik produkt med id
 router.get('/:id/', (req,res) => {
-  db.Product.findById(req.params.id).then((result)=>{
-    res.send(result);
-  });
-});
-
-//Lägg till betyg på produkt
-router.post('/:id/addRating', (req, res) => {
-  db.Product.findById(req.params.id)
-  .then((result) => {
-      product.ratings.push(rating);
-      return result.save();
-    })
+  db.Product.findByPk(req.params.id, 
+    { include: db.Rating })
+  
   .then((result)=>{
     res.send(result);
   });
 });
+
+router.post('/:id/addRating', (req, res) => {
+  db.Product.findByPk(req.params.id)
+    .then((product) => {
+
+      // Använd produktens associerade metod för att skapa en rating
+      return product.createRating({ rating: req.body.rating });
+    })
+    .then((newRating) => {
+      res.status(201).json(newRating);
+    });
+});
+
 
 //skapa produkt
 router.post('/', (req, res) => {
