@@ -29,19 +29,6 @@ router.get('/:id/', (req,res) => {
   });
 });
 
-//Lägga till
-router.post('/', (req, res) => {
-  const product = req.body;
-  const invalidData = validate(product, constraints);
-  if (invalidData) {
-    res.status(400).json(invalidData);
-  } else {
-  db.Product.create(product).then((result) => {
-    res.send(result);
-  });
-}
-});
-
 //Lägg till betyg på produkt
 router.post('/:id/addRating', (req, res) => {
   db.Product.findById(req.params.id)
@@ -52,6 +39,19 @@ router.post('/:id/addRating', (req, res) => {
   .then((result)=>{
     res.send(result);
   });
+});
+
+//skapa produkt
+router.post('/', (req, res) => {
+  const product = req.body;
+  const invalidData = validate(product, constraints);
+  if (invalidData) {
+    res.status(400).json(invalidData);
+  } else {
+  db.Product.create(product).then((result) => {
+    res.send(result);
+  });
+}
 });
 
 //Ändra produkt
@@ -74,47 +74,6 @@ router.delete('/', (req, res) => {
   .then((result) => {
     res.json(`Produkten raderades ${result}`);
   });
-});
-
-//productRoute för varukorgen addProduct
-router.post('/addProduct', async (req, res) => {
-  
-    // Förväntar sig att body innehåller: userId, productId, amount
-    const { userId, productId, amount } = req.body;
-    
-    // Hämta den senaste aktiva varukorgen för användaren.
-    // Här antas att en aktiv varukorg har purchaseCompleted satt till false.
-    const [cart, cartCreated] = await db.Cart.findOrCreate({
-      where: { user_id: userId, purchaseCompleted: false },
-      defaults: { user_id: userId, purchaseCompleted: false }
-    });
-    
-    // Kolla om produkten redan finns i varukorgen
-    const existingCartRow = await db.CartRow.findOne({
-      where: { cart_id: cart.id, product_id: productId }
-    });
-    
-    let cartRow;
-    if (existingCartRow) {
-      // Om produkten redan finns, uppdatera antalet
-      cartRow = await existingCartRow.update({
-        amount: existingCartRow.amount + parseInt(amount, 10)
-      });
-    } else {
-      // Annars, skapa en ny rad i varukorgen
-      cartRow = await db.CartRow.create({
-        cart_id: cart.id,
-        product_id: productId,
-        amount: amount
-      });
-    }
-    
-    return res.status(200).json({
-      message: 'Produkt tillagd i varukorgen.',
-      cartId: cart.id,
-      cartRow: cartRow
-    });
-  
 });
 
 //lägga till i varukorgen
