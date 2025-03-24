@@ -3,51 +3,36 @@
 
 import axios from './api';
 
-const API_BASE_URL = "http://localhost:3000/api/products"; // Ersätt med backend-URL
+const API_BASE_URL = "http://localhost:3000/product"; // Ersätt med backend-URL
 
 // Hämtar produkter (från API eller localStorage)
 export const fetchProducts = async () => {
   try {
-    const response = await fetch(API_BASE_URL);
-    if (!response.ok) throw new Error("Fel vid hämtning av produkter");
-    return await response.json();
+    const response = await axios.get(API_BASE_URL);
+    return response;
   } catch (error) {
-    console.error("Använder localStorage istället:", error);
-
-    // Hämta produkter från localStorage om API ej är tillgängligt
-    return JSON.parse(localStorage.getItem("products")) || [];
+    console.error("Fel vid hämtning av produkter:", error);
+    return[];
   }
 };
 
 // Hämtar en enskild produkt
 export const fetchProductById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/${id}`);
-    if (!response.ok) throw new Error("Fel vid hämtning av produkt");
-    return await response.json();
+    const response = await axios.get(`${API_BASE_URL}/${id}`);
+    return response;
   } catch (error) {
-    console.error("Använder localStorage istället:", error);
-    const products = await fetchProducts();
-    return products.find(product => product.id === parseInt(id));
+    return console.error("Använder localStorage istället:", error);
   }
 };
 
 // Skapar en ny produkt (används i adminpanelen)
 export const createProduct = async (product) => {
   try {
-    const response = await fetch(API_BASE_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(product),
-    });
-    if (!response.ok) throw new Error("Fel vid skapande av produkt");
-    return await response.json();
+    const response = await axios.post(API_BASE_URL, product);
+    return response;
   } catch (error) {
-    console.error("Sparar i localStorage istället:", error);
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    product.id = storedProducts.length + 1; // Simulerad ID-hantering
-    storedProducts.push(product);
-    localStorage.setItem("products", JSON.stringify(storedProducts));
+    console.error("fel vid skapande av produkt", error);
     return product;
   }
 };
@@ -55,23 +40,10 @@ export const createProduct = async (product) => {
 // Uppdaterar produktbetyget
 export const updateProductRating = async (id, rating) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/${id}/rating`, {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ rating }),
-    });
-    if (!response.ok) throw new Error("Fel vid uppdatering av betyg");
-    return await response.json();
+    const response = await axios.post(`${API_BASE_URL}/${id}/addRating`);
+    return response;
   } catch (error) {
-    console.error("Uppdaterar i localStorage istället:", error);
-    const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    const productIndex = storedProducts.findIndex(product => product.id === parseInt(id));
-    
-    if (productIndex !== -1) {
-      storedProducts[productIndex].ratings.push(rating);
-      localStorage.setItem("products", JSON.stringify(storedProducts));
-      return storedProducts[productIndex];
-    }
-    return null;
+    console.error("Fel vid uppdatering av produktbetyg:", error);
+    return { id, rating };
   }
 };
