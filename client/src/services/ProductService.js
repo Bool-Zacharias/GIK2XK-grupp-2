@@ -9,7 +9,7 @@ const API_BASE_URL = "http://localhost:3000/product"; // Ersätt med backend-URL
 export const fetchProducts = async () => {
   try {
     const response = await axios.get(API_BASE_URL);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Fel vid hämtning av produkter:", error);
     return[];
