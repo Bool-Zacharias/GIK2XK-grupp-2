@@ -9,4 +9,7 @@ async function findOrCreate(user_id) {
     return { status: 200, data: cart, created };
 }
 
+
+//Samma sak som i hennes exempel när hon
+// lägger till en kommentar på hennes post
 module.exports = { findOrCreate };
