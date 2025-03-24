@@ -113,6 +113,10 @@ router.post('/:id/addToCart', (req, res) => {
 
 module.exports = router;
 
+/* Hämta alla produkter */
+/* GET */
+/* http://localhost:3000/product/ */
+
 /* ===================================================
    Skapa en användare
    ---------------------------------------------------

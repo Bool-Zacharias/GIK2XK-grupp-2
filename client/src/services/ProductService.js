@@ -1,12 +1,14 @@
 //fetchProducts returnerar en lista av produkter.
 //fetchProductById hämtar en enskild produkt baserat på ID.
 
-const API_BASE_URL = "http://localhost:5000/api/products"; // Ersätt med backend-URL
+import product from "../../../server/models/product";
+
+const API_BASE_URL = "http://localhost:3000/"; // Ersätt med backend-URL
 
 // Hämtar produkter (från API eller localStorage)
 export const fetchProducts = async () => {
   try {
-    const response = await fetch(API_BASE_URL);
+    const response = await fetch(`${API_BASE_URL}/${product}`);
     if (!response.ok) throw new Error("Fel vid hämtning av produkter");
     return await response.json();
   } catch (error) {
@@ -18,17 +20,21 @@ export const fetchProducts = async () => {
 };
 
 // Hämtar en enskild produkt
+
 export const fetchProductById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/${id}`);
+    // Observera att vi använder en hårdkodad sträng "product" i URL:en
+    const response = await fetch(`${API_BASE_URL}/product/${id}`);
     if (!response.ok) throw new Error("Fel vid hämtning av produkt");
     return await response.json();
   } catch (error) {
     console.error("Använder localStorage istället:", error);
+    // Om nätverksanropet misslyckas, hämta alla produkter och hitta den efter id
     const products = await fetchProducts();
-    return products.find(product => product.id === parseInt(id));
+    return products.find(product => product.id === parseInt(id, 10));
   }
 };
+
 
 // Skapar en ny produkt (används i adminpanelen)
 export const createProduct = async (product) => {
