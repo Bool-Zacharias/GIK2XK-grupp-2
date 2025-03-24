@@ -1,0 +1,29 @@
+body {
+  background-color: #c1e3ff; /* Ljusblå bakgrund */
+  color: #212529; /* Textfärg */
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Navbar styling */
+.navbar {
+  background-color: #00448c !important; /* Mörkblå navbar */
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  color: white !important;
+}
+
+.navbar .nav-link:hover {
+  color: #d4d4d4 !important; /* Ljusare vid hover */
+}
+
+/* För att lägga bakgrund runt produktdetaljer */
+.product-details-container {
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+}
