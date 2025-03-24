@@ -1,4 +1,8 @@
+const db = require('../models');
+
+
 // Funktion som städar upp varukorgens data
+
 function _cleanCart(cart) {
     // mappa om varje rad / skapar bättre struktur för sökningar
     const cleanProducts = cart.CartRows.map(row => ({

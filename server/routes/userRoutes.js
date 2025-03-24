@@ -36,7 +36,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// Hämtar en cart med specifikt användar id och visar alla produkter i cart
+/* // Hämtar en cart med specifikt användar id och visar alla produkter i cart
 router.get('/:id/getCart/', (req, res) => {
   db.User.findById(req.params.id).then((user) => {
     db.carts.findOne({
@@ -51,7 +51,19 @@ router.get('/:id/getCart/', (req, res) => {
       });
     });
   });
+}); */
+
+// Hämtar varukorg för en användare med hjälp av vår service
+router.get('/:id/getCart/', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await userService.getCart(id);
+    res.status(result.status).json(result.data);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
+
 
 // Skapa en ny användare 
 router.post('/', (req, res) => {
@@ -74,15 +86,22 @@ router.put('/', (req, res) => {
   if (invalidData || !user.id) {
     res.status(400).json(invalidData || 'Id är obligatoriskt.');
   } else {
-    db.User.update(user, { where: { id: user.id } })
+    db.User
+    .update(user, { where: { id: user.id } })
       .then(() => res.send('Användaren har uppdaterats.'));
   }
 });
 
 // Ta bort användare
 router.delete('/', (req, res) => {
-  db.User.destroy({ where: { id: req.body.id } })
-    .then(() => res.json('Användaren har raderats.'));
+  db.User
+    .destroy({
+      where: { id: req.body.id }
+    })
+    .then(() => {
+      res.json(`Användaren raderades`);
+    });
 });
+
 
 module.exports = router;
