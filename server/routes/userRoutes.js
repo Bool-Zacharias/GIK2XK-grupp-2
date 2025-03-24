@@ -36,31 +36,14 @@ router.get('/:id', (req, res) => {
     });
 });
 
-/* // Hämtar en cart med specifikt användar id och visar alla produkter i cart
-router.get('/:id/getCart/', (req, res) => {
-  db.User.findById(req.params.id).then((user) => {
-    db.carts.findOne({
-      where: { user_id: user.id },
-      order: [["createdAt"]],
-    }).then((cart) => {
-      db.cart_rows.findAll({
-        where: { cart_id: cart.id },
-        include: [{ model: db.products }],
-      }).then((cartItems) => {
-        res.send({ cart, products: cartItems });
-      });
-    });
-  });
-}); */
-
-// Hämtar varukorg för en användare med hjälp av vår service
+// Hämtar varukorg för en användare
 router.get('/:id/getCart/', async (req, res) => {
   try {
     const { id } = req.params;
     const result = await userService.getCart(id);
     res.status(result.status).json(result.data);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Det fannns ingen varukorg för användaren'});
   }
 });
 
