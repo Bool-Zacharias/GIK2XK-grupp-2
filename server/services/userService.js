@@ -14,7 +14,7 @@ function _cleanCart(cart) {
     }));
   
     return {
-      cartId: cart.id,
+      cart_id: cart.id,
       user_id: cart.user_id,
       products: cleanProducts,
       amount: cart.amount,
