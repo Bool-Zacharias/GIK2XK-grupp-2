@@ -1,1 +1,4 @@
+# Ignorera Node-moduler för både server och client
 node_modules/
+client/node_modules/
+server/node_modules/
