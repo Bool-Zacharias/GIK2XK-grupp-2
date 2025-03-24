@@ -112,3 +112,73 @@ router.post('/:id/addToCart', (req, res) => {
 
 
 module.exports = router;
+
+/* ===================================================
+   Skapa en användare
+   ---------------------------------------------------
+   HTTP-metod: POST
+   URL: http://localhost:5000/user/
+   Fält som behövs: 
+     - email
+     - first_Name
+     - last_Name
+     - password
+=================================================== */
+
+/* ===================================================
+   Skapa en produkt
+   ---------------------------------------------------
+   HTTP-metod: POST
+   URL: http://localhost:5000/product/
+   Fält som behövs:
+     - description
+     - price
+     - imageUrl
+=================================================== */
+
+/* ===================================================
+   Lägg till en produkt i varukorgen
+   ---------------------------------------------------
+   HTTP-metod: POST
+   URL: http://localhost:5000/product/{produktId}/addToCart
+   Fält som behövs:
+     - user_id
+     - amount
+=================================================== */
+
+/* ===================================================
+   Hämta varukorgen för en användare
+   ---------------------------------------------------
+   HTTP-metod: GET
+   URL: http://localhost:5000/user/{user_id}/getCart/
+=================================================== */
+
+/* ===================================================
+   Lägg betyg på en produkt
+   ---------------------------------------------------
+   HTTP-metod: POST
+   URL: http://localhost:5000/product/{produktId}/addRating
+    Fält som behövs:
+      - rating
+   
+=================================================== */
+
+/* ===================================================
+   Hämta en specifik användare
+   ---------------------------------------------------
+   HTTP-metod: GET
+   URL: http://localhost:5000/user/{user_id}
+=================================================== */
+
+/* ===================================================
+   Uppdatera och/eller radera en användare
+   ---------------------------------------------------
+   Uppdatera:
+     - HTTP-metod: PUT
+     - URL: http://localhost:5000/user/
+   Radera:
+     - HTTP-metod: DELETE
+     - URL: http://localhost:5000/user/
+     - Fält som behövs: 
+         * id (skickas i body, ex. via x-www-form-urlencoded)
+=================================================== */
