@@ -1,7 +1,9 @@
 //fetchProducts returnerar en lista av produkter.
 //fetchProductById hämtar en enskild produkt baserat på ID.
 
-const API_BASE_URL = "http://localhost:5000/api/products"; // Ersätt med backend-URL
+import axios from './api';
+
+const API_BASE_URL = "http://localhost:3000/api/products"; // Ersätt med backend-URL
 
 // Hämtar produkter (från API eller localStorage)
 export const fetchProducts = async () => {
