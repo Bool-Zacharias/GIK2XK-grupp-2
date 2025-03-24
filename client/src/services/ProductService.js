@@ -5,7 +5,7 @@ import axios from './api';
 
 const API_BASE_URL = "http://localhost:3000/product"; // Ersätt med backend-URL
 
-// Hämtar produkter (från API eller localStorage)
+// Hämtar produkter (från API eller localStorage jao)
 export const fetchProducts = async () => {
   try {
     const response = await axios.get(API_BASE_URL);
