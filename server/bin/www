@@ -14,7 +14,7 @@ var http = require('http');
 const db = require('../models/');
 db.sequelize
   .sync()
- // .sync({ force: true})
+ // .sync({ force: true}) jao
   .then(()=>{
     server.listen(port,()=>{
       console.log(`server running on localhost:${port}`);
@@ -28,6 +28,7 @@ app.set('port', port);
 
 /**
  * Create HTTP server.
+ * 
  */
 
 var server = http.createServer(app);
