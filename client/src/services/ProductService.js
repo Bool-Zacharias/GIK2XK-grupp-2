@@ -3,9 +3,9 @@
 
 import axios from './api';
 
-const API_BASE_URL = "http://localhost:3000/product"; // Ersätt med backend-URL
+const API_BASE_URL = "http://localhost:3000/product"; 
 
-// Hämtar produkter (från API eller localStorage jao)
+// Hämtar produkter 
 export const fetchProducts = async () => {
   try {
     const response = await axios.get(API_BASE_URL);
@@ -37,7 +37,7 @@ export const createProduct = async (product) => {
   }
 };
 
-// Uppdaterar produktbetyget
+// Lägg till produktbetyget
 export const updateProductRating = async (id, rating) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/${id}/addRating`);

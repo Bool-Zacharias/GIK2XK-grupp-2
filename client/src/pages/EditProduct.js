@@ -49,7 +49,7 @@ const EditProduct = () => {
     <Container className="container">
       <Typography variant="h4">{isEditing ? "Redigera Produkt" : "Lägg till Produkt"}</Typography>
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "20px" }}>
-        <TextField label="Namn" name="name" value={product.name} onChange={handleChange} required />
+        <TextField label="Title" name="name" value={product.name} onChange={handleChange} required />
         <TextField label="Pris" name="price" type="number" value={product.price} onChange={handleChange} required />
         <TextField label="Bild-URL" name="image" value={product.image} onChange={handleChange} required />
         <TextField label="Beskrivning" name="description" value={product.description} onChange={handleChange} multiline rows={3} required />
