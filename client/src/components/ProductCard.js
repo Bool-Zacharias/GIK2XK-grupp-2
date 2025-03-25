@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const ProductCard = ({ product }) => {
   // Säkerställ att product.ratings alltid är en array
-  const ratings = product.ratings || [];
+  const ratings = product.rating || [];
   const average = ratings.length > 0
     ? (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(1)
     : 0;
@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     <Card>
       <CardMedia component="img" height="140" image={product.image} alt={product.name} />
       <CardContent>
-        <Typography variant="h6">{product.name}</Typography>
+        <Typography variant="h6">{product.title}</Typography>
         <Typography variant="body2">{product.description}</Typography>
         <Typography variant="body2" color="textSecondary">Pris: {product.price} kr</Typography>
         <Typography variant="body2" color="textSecondary">
