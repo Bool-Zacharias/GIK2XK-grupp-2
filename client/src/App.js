@@ -8,7 +8,7 @@ import ProductList from "./pages/ProductList";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
 import AdminPage from "./pages/AdminPage";
-import { CartProvider } from "./context/CartContext";
+import { CartProvider } from "./services/CartServices";
 
 const App = () => {
   return (
@@ -18,7 +18,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
-          <Route path="/products/:id" element={<ProductDetails />} />
+          <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/admin" element={<AdminPage />} />
         </Routes>

@@ -13,10 +13,10 @@ const CartPage = () => {
       ) : (
         <>
           <List>
-            {cart.map((item, index) => (
+            {cart.map((product, index) => (
               <ListItem key={index}>
-                <ListItemText primary={item.title} secondary={`Pris: ${item.price} kr`} />
-                <Button variant="outlined" color="secondary" onClick={() => removeFromCart(item.id)}>
+                <ListItemText primary={product.title} secondary={`Pris: ${product.price} kr`} />
+                <Button variant="outlined" color="secondary" onClick={() => removeFromCart(product.id)}>
                   Ta bort
                 </Button>
               </ListItem>
