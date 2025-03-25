@@ -8,11 +8,9 @@ import ProductList from "./pages/ProductList";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/Cart";
 import AdminPage from "./pages/AdminPage";
-import { CartProvider } from "./services/CartServices";
 
 const App = () => {
   return (
-    <CartProvider>
       <Router>
         <Navbar />
         <Routes>
@@ -23,7 +21,6 @@ const App = () => {
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>
-    </CartProvider>
   );
 };
 
