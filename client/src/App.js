@@ -17,7 +17,7 @@ const App = () => {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cart" element={<CartPage userId={1} />} /> {/* FIXA DETTA HÅRDKODAT */}
           <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </Router>

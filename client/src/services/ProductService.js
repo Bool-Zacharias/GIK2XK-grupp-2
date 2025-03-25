@@ -3,7 +3,7 @@
 
 import axios from './api';
 
-const API_BASE_URL = "http://localhost:3000/product"; 
+const API_BASE_URL = "http://localhost:5000/product"; 
 
 // Hämtar produkter 
 export const fetchProducts = async () => {
@@ -20,7 +20,7 @@ export const fetchProducts = async () => {
 export const fetchProductById = async (id) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/${id}`);
-    return response;
+    return response.data;
   } catch (error) {
     return console.error("Använder localStorage istället:", error);
   }
@@ -30,7 +30,7 @@ export const fetchProductById = async (id) => {
 export const createProduct = async (product) => {
   try {
     const response = await axios.post(API_BASE_URL, product);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("fel vid skapande av produkt", error);
     return product;
@@ -41,7 +41,7 @@ export const createProduct = async (product) => {
 export const updateProductRating = async (id, rating) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/${id}/addRating`);
-    return response;
+    return response.data;
   } catch (error) {
     console.error("Fel vid uppdatering av produktbetyg:", error);
     return { id, rating };

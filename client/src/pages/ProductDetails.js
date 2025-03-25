@@ -64,9 +64,14 @@ const ProductDetails = () => {
 
           {/* Knappen ligger längst ner till höger */}
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
-            <Button variant="contained" color="primary" onClick={() => addToCart(product)}>
-              Lägg till i varukorg
-            </Button>
+                    <Button
+            variant="contained"
+            color="primary"
+            onClick={() => addToCart(product.id, 1)} // Här använder vi 1 som ett exempel på user_id.
+          >
+            Lägg till i varukorg
+          </Button>
+
           </div>
         </CardContent>
       </Card>
