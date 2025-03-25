@@ -4,7 +4,7 @@ import { Container, TextField, Button, Typography } from "@mui/material";
 
 const AdminPage = () => {
   const [newProduct, setNewProduct] = useState({
-    name: "",
+    title: "",
     price: "",
     image: "",
     ratings: [],
@@ -26,7 +26,7 @@ const AdminPage = () => {
     <Container>
       <Typography variant="h4">Admin: Lägg till produkt</Typography>
       <form onSubmit={handleSubmit}>
-        <TextField label="Title" name="name" value={newProduct.name} onChange={handleChange} fullWidth margin="normal" required />
+        <TextField label="Title" name="title" value={newProduct.name} onChange={handleChange} fullWidth margin="normal" required />
         <TextField label="Pris" name="price" type="number" value={newProduct.price} onChange={handleChange} fullWidth margin="normal" required />
         <TextField label="Bild-URL" name="image" value={newProduct.image} onChange={handleChange} fullWidth margin="normal" />
         <TextField label="Kort beskrivning" name="shortDescription" value={newProduct.shortDescription} onChange={handleChange} fullWidth margin="normal" required />
