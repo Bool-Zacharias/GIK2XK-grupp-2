@@ -5,7 +5,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductById, updateProductRating } from "../services/ProductService";
 import { Container, Typography, Card, CardMedia, CardContent, Rating, Button } from "@mui/material";
-import { useCart } from "../services/CartServices";
+import { useCart } from "../context/CartContext";
+import RatingBreakdown from "../components/RatingBreakdown";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -55,7 +56,8 @@ const ProductDetails = () => {
               Snittbetyg: {averageRating}
               <Rating value={parseFloat(averageRating) || 0} precision={0.1} readOnly />
             </Typography>
-
+            <RatingBreakdown ratings={product.ratings} />
+            
             <Typography variant="h6" style={{ marginTop: "10px" }}>Sätt ditt betyg:</Typography>
             <Rating value={userRating} precision={0.5} onChange={handleRatingChange} />
           </div>
