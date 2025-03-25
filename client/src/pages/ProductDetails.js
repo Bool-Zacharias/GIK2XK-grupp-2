@@ -25,7 +25,7 @@ const ProductDetails = () => {
     return (sum / ratings.length).toFixed(1);
   };
 
-  const handleRatingChange = async (event, newValue) => {
+  const handleRatingChange = async (newValue) => {
     if (newValue !== null) {
       setUserRating(newValue);
 
@@ -48,7 +48,7 @@ const ProductDetails = () => {
         <CardMedia component="img" height="250" image={product.image} alt={product.name} />
         <CardContent style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
           <div>
-            <Typography variant="h4">{product.name}</Typography>
+            <Typography variant="h4">{product.title}</Typography>
             <Typography variant="h6">{product.fullDescription}</Typography>
             <Typography variant="h5">Pris: {product.price} kr</Typography>
             <Typography variant="h6">
