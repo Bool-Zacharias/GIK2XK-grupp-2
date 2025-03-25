@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
         <Rating value={parseFloat(average)} precision={0.1} readOnly />
       </CardContent>
       <CardActions>
-        <Button size="small" component={Link} to={`/products/${product.id}`} variant="contained">
+        <Button size="small" component={Link} to={`/product/${product.id}`} variant="contained">
           Visa detaljer
         </Button>
       </CardActions>
