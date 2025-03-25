@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductById, updateProductRating } from "../services/ProductService";
 import { Container, Typography, Card, CardMedia, CardContent, Rating, Button } from "@mui/material";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../services/CartServices";
 import RatingBreakdown from "../components/RatingBreakdown";
 
 const ProductDetails = () => {

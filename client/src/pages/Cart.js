@@ -1,5 +1,5 @@
 import React from "react";
-import { useCart } from "../context/CartContext";
+import { useCart } from "../services/CartServices";
 import { Container, Typography, List, ListItem, ListItemText, Button } from "@mui/material";
 
 const CartPage = () => {
