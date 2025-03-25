@@ -1,9 +1,10 @@
 import React from "react";
-import { fetchCartByUser, addProductToCart } from "../services/CartServices";
+import {addToCart} from "../services/CartServices";
+import { removeFromCart } from "../services/CartServices";
 import { Container, Typography, List, ListItem, ListItemText, Button } from "@mui/material";
 
 const CartPage = () => {
-  const { cart, removeFromCart, totalPrice } = useCart();
+  const { cart, removeFromCart, totalPrice } = addToCart();
 
   return (
     <Container>

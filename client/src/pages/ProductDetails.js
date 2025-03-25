@@ -5,14 +5,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductById, updateProductRating } from "../services/ProductService";
 import { Container, Typography, Card, CardMedia, CardContent, Rating, Button } from "@mui/material";
-import { useCart } from "../services/CartServices";
 import RatingBreakdown from "../components/RatingBreakdown";
+import { addToCart } from "../services/CartServices";
+
 
 const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [userRating, setUserRating] = useState(0);
-  const { addToCart } = useCart();
 
   useEffect(() => {
     fetchProductById(id).then((data) => {
