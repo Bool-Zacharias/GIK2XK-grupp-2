@@ -47,3 +47,27 @@ export const updateProductRating = async (id, rating) => {
     return { id, rating };
   }
 };
+// Uppdatera en produkt
+export const updateProduct = async (id, updatedProduct) => {
+  try {
+    const response = await axios.put(`${API_BASE_URL}/${id}`, updatedProduct);
+    return response.data;
+  } catch (error) {
+    console.error("Fel vid uppdatering av produkt:", error);
+    throw error;
+  }
+};
+
+// Radera en produkt (tydligen fungerade detta istället för att skicka in id som parameter)
+export const deleteProduct = async (id) => {
+  try {
+    const response = await axios.delete(`http://localhost:5000/product/`, {
+      data: { id }
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Fel vid radering av produkt:", error);
+    throw error;
+  }
+};
+
