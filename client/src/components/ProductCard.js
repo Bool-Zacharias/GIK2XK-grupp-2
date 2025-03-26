@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 // Komponent för att visa varje enskild produkt i en kortvy
 const ProductCard = ({ product }) => {
-  // Säkerställ att product.ratings alltid är en array
+  // Säkerställ att ratings alltid är en array
   const ratings = product.ratings || [];
 
   // Räknar ut genomsnittsbetyg från alla betyg
@@ -15,16 +15,12 @@ const ProductCard = ({ product }) => {
   return (
     <Card>
       {/* 
-        Visar produktens bild om en giltig bild-URL finns.
-        Annars visas en platsbild från picsum.photos som varierar beroende på produktens id.
-        - "&&" ser till att värdet inte är null/undefined
-        - "trim() !== ''" ser till att strängen inte bara innehåller mellanslag
-        - Ternary-operatorn ( ? : ) väljer mellan två alternativ
+        Visar produktens bild som är random
       */}
       <CardMedia
         component="img"
         height="140"
-        image={product.image && product.image.trim() !== "" ? product.image : `https://picsum.photos/seed/${product.id}/250`}
+        image={ `https://picsum.photos/seed/${product.id}/250`}
         alt={product.title}
       />
       <CardContent>

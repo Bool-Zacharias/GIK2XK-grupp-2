@@ -1,5 +1,6 @@
 // En enkel navigationsmeny (navbar) som använder React Router för att länka till olika sidor i webbshopen: 
 // Hem (/), Produkter (/products), Varukorg (/cart) och Admin (/admin)
+// Vi använder oss av bootstrap https://getbootstrap.com/docs/5.3/components/navbar/
 
 import React from "react";
 import { Link } from "react-router-dom";

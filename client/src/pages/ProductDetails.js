@@ -50,15 +50,11 @@ const ProductDetails = () => {
   return (
     <Container className="container">
       <Card>
-        {/* Visar produktbild – platsbild om ingen finns */}
+        {/* Visar produktbild random*/}
         <CardMedia
           component="img"
           height="250"
-          image={
-            product.image && product.image.trim() !== ""
-              ? product.image
-              : `https://picsum.photos/seed/${product.id}/250`
-          }
+          image={`https://picsum.photos/seed/${product.id}/250`} 
           alt={product.name}
         />
         <CardContent
