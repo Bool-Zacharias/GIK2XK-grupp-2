@@ -1,3 +1,4 @@
+// Skapar en modell för ratings
 module.exports = (sequelize, DataTypes) => {
     const Rating = sequelize.define('Rating', {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },

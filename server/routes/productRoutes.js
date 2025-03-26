@@ -1,10 +1,11 @@
-const router = require('express').Router();
-const db = require('../models');
-const product = require('../models/product');
-const validate = require('validate.js');
-const productService = require("../services/productService");
+//Hanterar alla olika routes för produkter
+const router = require('express').Router(); //importerar express och skapar en router
+const db = require('../models'); //skapar upp ett db objekt som innehåller alla modeller
+const product = require('../models/product'); 
+const validate = require('validate.js'); //importerar validate.js för att validera data
+const productService = require("../services/productService"); //importerar productService för att kunna använda funktioner från den
 
-
+//Skapar upp constraints för att validera data
 const constraints = {
   description: {
     length: {
@@ -18,6 +19,8 @@ const constraints = {
 };
 
 // Hämta alla produkter med betyg
+//Ropar på router.get och skickar in en callback funktion med req och res som parametrar
+//hämtar alla produkter med betyg och skickar tillbaka det
 router.get('/', (req, res) => {
   db.Product.findAll({ include: db.Rating }).then((result) => {
     const productsWithRatings = result.map(product => ({
@@ -29,6 +32,8 @@ router.get('/', (req, res) => {
 });
 
 // Hämta specifik produkt med id
+//Ropar på router.get med endpointen /:id/ och skickar in en callback funktion med req och res som parametrar
+//Hämtar en specifik produkt med id och skickar tillbaka det
 router.get('/:id/', (req,res) => {
   db.Product.findByPk(req.params.id, { include: db.Rating })
     .then((product) => {
@@ -40,7 +45,9 @@ router.get('/:id/', (req,res) => {
     });
 });
 
+//Lägga till betyg på en produkt
 router.post('/:id/addRating', async (req, res) => {
+  //Hämtar id och rating från req.params och req.body
   const { id } = req.params;
   const { rating } = req.body;
 
@@ -50,12 +57,14 @@ router.post('/:id/addRating', async (req, res) => {
 
     await product.createRating({ rating });
 
+    //Inkluderar rating för att få med den när vi lägger ett betyg på produkten till ett specifikt id
     const updatedProduct = await db.Product.findByPk(id, {
       include: [db.Rating],
     });
-
+    //Istället för att skriva all information använder vi Sequalize spread operator. Källa: https://sequelize.org/docs/v7/querying/operators/
     res.status(201).json({
       ...updatedProduct.toJSON(),
+      //Hämtar alla betyg och skapar en array med alla betyg, lägger till en ny egenskap manuellt och extraherer enbart siffrorna
       ratings: updatedProduct.Ratings.map(r => r.rating),
     });
   } catch (error) {
@@ -67,11 +76,14 @@ router.post('/:id/addRating', async (req, res) => {
 
 //skapa produkt
 router.post('/', (req, res) => {
+  //Hämtar produkt från req.body
   const product = req.body;
+  //Validerar data
   const invalidData = validate(product, constraints);
   if (invalidData) {
     res.status(400).json(invalidData);
   } else {
+    //Skapar en produkt och skickar tillbaka det
   db.Product.create(product).then((result) => {
     res.send(result);
   });
@@ -80,6 +92,7 @@ router.post('/', (req, res) => {
 
 //Ändra produkt
 router.put('/', (req, res) => {
+  //Uppdaterar produkt och skickar tillbaka det 
 db.Product.update(req.body, {
     where: 
     { id: req.body.id }
@@ -102,21 +115,26 @@ router.delete('/', (req, res) => {
 
 //lägga till i varukorgen
 router.post('/:id/addToCart', async (req, res) => {
+  //Hämtar user_id och amount från req.body
   const { user_id, amount } = req.body;
 
   try {
+    //Hämtar primary key med id från req.params
     const product = await db.Product.findByPk(req.params.id);
     if (!product) return res.status(404).json({ error: 'Produkten hittades inte.' });
 
+    //Anropar findOrCreate funktionen från productService och skickar in user_id
     const cartResult = await productService.findOrCreate(user_id);
+    //Sparar ner cart från cartResult.data
     const cart = cartResult.data;
 
+    //Skapar en cartRow och skickar in cart.id, product.id och amount
     const cartRow = await db.CartRow.create({
       cart_id: cart.id,
       product_id: product.id,
       amount: Number(amount),
     });
-
+    //Skickar tillbaka cartRow
     res.status(201).json(cartRow);
   } catch (error) {
     console.error("SERVERFEL:", error);
