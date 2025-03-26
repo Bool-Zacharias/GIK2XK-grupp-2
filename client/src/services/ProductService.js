@@ -40,11 +40,13 @@ export const createProduct = async (product) => {
 // Lägg till produktbetyget
 export const updateProductRating = async (id, rating) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/${id}/addRating`);
+    const response = await axios.post(`http://localhost:5000/product/${id}/addRating`, {
+      rating: rating
+    });
     return response.data;
   } catch (error) {
     console.error("Fel vid uppdatering av produktbetyg:", error);
-    return { id, rating };
+    return null;
   }
 };
 

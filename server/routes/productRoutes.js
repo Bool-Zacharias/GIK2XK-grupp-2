@@ -17,34 +17,53 @@ const constraints = {
 
 };
 
-//Hämta alla produkter
+// Hämta alla produkter med betyg
 router.get('/', (req, res) => {
-db.Product.findAll().then((result) => {
-    res.send(result);
+  db.Product.findAll({ include: db.Rating }).then((result) => {
+    const productsWithRatings = result.map(product => ({
+      ...product.toJSON(),
+      ratings: product.Ratings.map(r => r.rating)
+    }));
+    res.send(productsWithRatings);
   });
 });
 
 // Hämta specifik produkt med id
 router.get('/:id/', (req,res) => {
-  db.Product.findByPk(req.params.id, 
-    { include: db.Rating })
-  
-  .then((result)=>{
-    res.send(result);
-  });
-});
-
-router.post('/:id/addRating', (req, res) => {
-  db.Product.findByPk(req.params.id)
+  db.Product.findByPk(req.params.id, { include: db.Rating })
     .then((product) => {
-
-      // Använd produktens associerade metod för att skapa en rating
-      return product.createRating({ rating: req.body.rating });
-    })
-    .then((newRating) => {
-      res.status(201).json(newRating);
+      const result = {
+        ...product.toJSON(),
+        ratings: product.Ratings.map(r => r.rating)
+      };
+      res.send(result);
     });
 });
+
+router.post('/:id/addRating', async (req, res) => {
+  const { id } = req.params;
+  const { rating } = req.body;
+
+  try {
+    const product = await db.Product.findByPk(id);
+    if (!product) return res.status(404).json({ error: 'Produkten hittades inte.' });
+
+    await product.createRating({ rating });
+
+    const updatedProduct = await db.Product.findByPk(id, {
+      include: [db.Rating],
+    });
+
+    res.status(201).json({
+      ...updatedProduct.toJSON(),
+      ratings: updatedProduct.Ratings.map(r => r.rating),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Något gick fel när betyget skulle sparas' });
+  }
+});
+
 
 //skapa produkt
 router.post('/', (req, res) => {
@@ -82,32 +101,28 @@ router.delete('/', (req, res) => {
 });
 
 //lägga till i varukorgen
-router.post('/:id/addToCart', (req, res) => {
+router.post('/:id/addToCart', async (req, res) => {
   const { user_id, amount } = req.body;
 
-  db.Product.findByPk(req.params.id)
-    .then(product => {
-      if (!product) {
-        return res.status(404).json({ error: 'Produkten hittades inte.' });
-      }
-      return productService.findOrCreate(user_id)
-    .then(cartResult => {
-      const cart = cartResult.data;
-      return db.CartRow.create({
+  try {
+    const product = await db.Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Produkten hittades inte.' });
+
+    const cartResult = await productService.findOrCreate(user_id);
+    const cart = cartResult.data;
+
+    const cartRow = await db.CartRow.create({
       cart_id: cart.id,
       product_id: product.id,
-      amount: Number(amount)
+      amount: Number(amount),
     });
-  });
 
-    })
-    .then(cartRow => {
-      res.status(201).json(cartRow);
-    })
-    .catch(error => {
-      res.status(500).json({ error: error.message });
-    });
-  });
+    res.status(201).json(cartRow);
+  } catch (error) {
+    console.error("SERVERFEL:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 module.exports = router;

@@ -26,18 +26,19 @@ const ProductDetails = () => {
     return (sum / ratings.length).toFixed(1);
   };
 
-  const handleRatingChange = async (newValue) => {
-    if (newValue !== null) {
-      setUserRating(newValue);
-
-      // Uppdatera betyget i backend/localStorage
-      const updatedProduct = await updateProductRating(id, newValue);
-
-      if (updatedProduct) {
-        setProduct({ ...updatedProduct });
-      }
+const handleRatingChange = async (newValue) => {
+  if (newValue !== null) {
+    setUserRating(newValue);
+  
+    const updatedProduct = await updateProductRating(id, newValue);
+    if (updatedProduct) {
+      setProduct({
+        ...product,
+        ratings: updatedProduct.ratings || []  // <-- viktigt
+      });
     }
-  };
+  }
+};
 
   if (!product) return <Typography variant="h5">Laddar...</Typography>;
 
@@ -59,18 +60,23 @@ const ProductDetails = () => {
             <RatingBreakdown ratings={product.ratings} />
             
             <Typography variant="h6" style={{ marginTop: "10px" }}>Sätt ditt betyg:</Typography>
-            <Rating value={userRating} precision={0.5} onChange={handleRatingChange} />
+            <Rating
+              value={userRating}
+              precision={1}
+              onChange={(_, newValue) => handleRatingChange(newValue)}
+            />
           </div>
 
           {/* Knappen ligger längst ner till höger */}
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
-                    <Button
-            variant="contained"
-            color="primary"
-            onClick={() => addToCart(product.id, 1)} // Här använder vi 1 som ett exempel på user_id.
-          >
-            Lägg till i varukorg
-          </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => addToCart(product.id, 1)} // <-- ID 1 är användare, om det finns
+              >
+              Lägg till i varukorg
+            </Button>
+
 
           </div>
         </CardContent>
