@@ -51,7 +51,6 @@ export const updateProductRating = async (id, rating) => {
 };
 
 //Ändra produkt
-//https://chatgpt.com/share/67e3cea6-8934-8006-a0ed-e335983a763d
 export const updateProduct = async (id, updatedProduct) => {
   try {
     const response = await axios.put(`http://localhost:5000/product/`, {
