@@ -11,7 +11,7 @@ const average = ratings.length > 0
 
   return (
     <Card>
-      <CardMedia component="img" height="140" image={product.image} alt={product.name} />
+      <CardMedia component="img" height="140" image={product.image && product.image.trim() !== "" ? product.image : `https://picsum.photos/seed/${product.id}/250`} alt={product.title} />
       <CardContent>
         <Typography variant="h6">{product.title}</Typography>
         <Typography variant="body2">{product.description}</Typography>

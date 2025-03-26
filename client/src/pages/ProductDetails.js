@@ -47,7 +47,14 @@ const handleRatingChange = async (newValue) => {
   return (
     <Container className="container">
       <Card>
-        <CardMedia component="img" height="250" image={product.image} alt={product.name} />
+        {/* 
+          Visar produktens bild om en giltig bild-URL finns.
+          Annars visas en platsbild från picsum.photos som varierar beroende på produktens id.
+          - "&&" ser till att värdet inte är null/undefined
+          - "trim() !== ''" ser till att strängen inte bara innehåller mellanslag
+          - Ternary-operatorn ( ? : ) väljer mellan två alternativ
+        */}
+        <CardMedia component="img" height="250" image={product.image && product.image.trim() !== "" ? product.image : `https://picsum.photos/seed/${product.id}/250`} alt={product.name} />
         <CardContent style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
           <div>
             <Typography variant="h4">{product.title}</Typography>
