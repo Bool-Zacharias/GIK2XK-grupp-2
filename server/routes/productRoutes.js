@@ -46,7 +46,6 @@ router.post('/:id/addRating', (req, res) => {
     });
 });
 
-
 //skapa produkt
 router.post('/', (req, res) => {
   const product = req.body;

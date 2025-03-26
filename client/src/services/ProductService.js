@@ -47,10 +47,14 @@ export const updateProductRating = async (id, rating) => {
     return { id, rating };
   }
 };
+
+
 // Uppdatera en produkt
 export const updateProduct = async (id, updatedProduct) => {
   try {
-    const response = await axios.put(`${API_BASE_URL}/${id}`, updatedProduct);
+    const response = await axios.put(`http://localhost:5000/product/`, updatedProduct,{
+      data: {id}
+    });
     return response.data;
   } catch (error) {
     console.error("Fel vid uppdatering av produkt:", error);
