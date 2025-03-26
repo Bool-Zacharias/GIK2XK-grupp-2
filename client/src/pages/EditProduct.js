@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, TextField, Button, Typography } from "@mui/material";
 
+// Formulär för att skapa eller redigera en produkt
 const EditProduct = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const isEditing = id !== "new"; // 🟢 Redigeringsläge om id != "new"
+  const isEditing = id !== "new"; // true = redigera, false = ny produkt
 
   const [product, setProduct] = useState({
     title: "",
@@ -16,6 +17,7 @@ const EditProduct = () => {
   });
 
   useEffect(() => {
+    // Förifyller formuläret om vi redigerar
     if (isEditing) {
       const existingProduct = product.find((p) => p.id === id);
       if (existingProduct) {
@@ -32,15 +34,15 @@ const EditProduct = () => {
     e.preventDefault();
 
     if (isEditing) {
-      // 🟢 Uppdatera befintlig produkt
+      // Uppdaterar produkten i listan (lokalt)
       product = product.map((p) => (p.id === id ? product : p));
     } else {
-      // 🟢 Lägg till ny produkt
-      product.id = new Date().getTime().toString(); // Skapar ett unikt ID
+      // Lägger till ny produkt (lokalt)
+      product.id = new Date().getTime().toString();
       product.push(product);
     }
-    
-    navigate("/product");
+
+    navigate("/product"); // Navigerar tillbaka till produktlistan
   };
 
   return (

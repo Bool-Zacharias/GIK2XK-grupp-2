@@ -1,4 +1,5 @@
-//Skapar en enkel navbar med länkar till hem (/) och produktlistan (/products)
+// En enkel navigationsmeny (navbar) som använder React Router för att länka till olika sidor i webbshopen: 
+// Hem (/), Produkter (/products), Varukorg (/cart) och Admin (/admin)
 
 import React from "react";
 import { Link } from "react-router-dom";

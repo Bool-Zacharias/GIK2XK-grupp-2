@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+// Hämtar varukorg från backend baserat på användarens ID
 import { fetchCartByUser } from "../services/CartServices";
 import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
 
 const CartPage = ({ userId }) => {
-  const [cart, setCart] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [cart, setCart] = useState(null); // Innehåller produkter i varukorgen
+  const [loading, setLoading] = useState(true); // Laddningsstatus
+  const [totalPrice, setTotalPrice] = useState(0); // Totalsumma
 
   useEffect(() => {
+    // Hämtar varukorgen när komponenten laddas eller userId ändras
     const loadCart = async () => {
       const cartData = await fetchCartByUser(userId);
       if (cartData && cartData.products) {
@@ -35,6 +37,7 @@ const CartPage = ({ userId }) => {
         <Typography variant="h6">Din varukorg är tom.</Typography>
       ) : (
         <>
+          {/* Lista med produkter i varukorgen */}
           <List>
             {cart.map((product, index) => (
               <ListItem key={index}>
@@ -42,6 +45,7 @@ const CartPage = ({ userId }) => {
               </ListItem>
             ))}
           </List>
+          {/* Visar totalsumma */}
           <Typography variant="h5" style={{ marginTop: "20px" }}>
             Total: {totalPrice} kr
           </Typography>

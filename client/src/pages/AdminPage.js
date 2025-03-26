@@ -3,8 +3,8 @@ import { createProduct, updateProduct, deleteProduct } from "../services/Product
 import { Container, TextField, Button, Typography, MenuItem } from "@mui/material";
 
 const AdminPage = () => {
-  const [mode, setMode] = useState("create"); // "create", "edit", "delete"
-  const [productId, setProductId] = useState(""); // För redigera/ta bort
+  const [mode, setMode] = useState("create"); // Hanterar om vi ska skapa, redigera eller ta bort produkt
+  const [productId, setProductId] = useState(""); // Används vid redigering eller borttagning
   const [productData, setProductData] = useState({
     title: "",
     price: "",
@@ -13,10 +13,12 @@ const AdminPage = () => {
     fullDescription: "",
   });
 
+  // Uppdaterar produktdata när användaren skriver i formuläret
   const handleChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
 
+  // Skickar formuläret beroende på valt läge (skapa/redigera/radera)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -38,7 +40,8 @@ const AdminPage = () => {
         await deleteProduct(productId);
         alert("Produkt raderad!");
       }
-      // Återställ formuläret
+
+      // Töm fälten efter åtgärd
       setProductData({
         title: "",
         price: "",
@@ -59,6 +62,7 @@ const AdminPage = () => {
         Admin: {mode === "create" ? "Lägg till" : mode === "edit" ? "Redigera" : "Ta bort"} produkt
       </Typography>
 
+      {/* Välj åtgärd (skapa/redigera/radera) */}
       <div style={{ marginBottom: "20px" }}>
         <TextField
           select
@@ -73,6 +77,7 @@ const AdminPage = () => {
         </TextField>
       </div>
 
+      {/* Visa produkt-id-fält om vi redigerar eller tar bort */}
       {(mode === "edit" || mode === "delete") && (
         <TextField
           label="Produkt-ID"
@@ -85,6 +90,7 @@ const AdminPage = () => {
         />
       )}
 
+      {/* Formulär för att skapa eller redigera produkter */}
       {(mode === "create" || mode === "edit") && (
         <form onSubmit={handleSubmit}>
           <TextField
@@ -138,6 +144,7 @@ const AdminPage = () => {
         </form>
       )}
 
+      {/* Formulär för att radera produkt */}
       {mode === "delete" && (
         <form onSubmit={handleSubmit}>
           <Button type="submit" variant="contained" color="secondary">

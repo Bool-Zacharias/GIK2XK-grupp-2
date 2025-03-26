@@ -1,3 +1,9 @@
+// Komponent som visar en visuell sammanställning av betyg 1–5 stjärnor.
+// För varje betygsnivå räknas hur många som gett det betyget och visas i ett stapeldiagram.
+// getCount(star) räknar antal gånger ett visst betyg förekommer i listan
+// percent räknar ut andelen i procent för varje stjärn-nivå
+// LinearProgress visar detta visuellt
+
 import React from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";
 
