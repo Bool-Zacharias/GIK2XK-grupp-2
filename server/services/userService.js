@@ -7,6 +7,7 @@ function _cleanCart(cart) {
     // mappa om varje rad / skapar bättre struktur för sökningar
     const cleanProducts = cart.CartRows.map(row => ({
       productId: row.Product.id,
+      title: row.Product.title,
       description: row.Product.description,
       price: row.Product.price,
       amount: row.amount,
