@@ -64,7 +64,7 @@ export const updateProduct = async (id, updatedProduct) => {
 };
 
 
-// Radera en produkt (tydligen fungerade detta istället för att skicka in id som parameter)
+// Radera en produkt (Vi avnänder en utskriven url här istället för vanlig, handlar om hur vår backend sökväg är upplagd för postman)
 export const deleteProduct = async (id) => {
   try {
     const response = await axios.delete(`http://localhost:5000/product/`, {
