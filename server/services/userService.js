@@ -2,7 +2,6 @@ const db = require('../models');
 
 
 // Funktion som städar upp varukorgens data
-
 function _cleanCart(cart) {
     // mappa om varje rad / skapar bättre struktur för sökningar
     const cleanProducts = cart.CartRows.map(row => ({
@@ -21,7 +20,8 @@ function _cleanCart(cart) {
       amount: cart.amount,
     };
   }
-  // Get funktion för specifikt varukorg kopplat till användar id som inte är betalt
+
+  // Get funktion för specifikt varukorg kopplat till användar id (som inte är betalt)
   async function getCart(user_id) {
     const cart = await db.Cart.findOne({
       where: { user_id: user_id, payed: false },

@@ -10,6 +10,5 @@ async function findOrCreate(user_id) {
 }
 
 
-//Samma sak som i hennes exempel när hon
-// lägger till en kommentar på hennes post
+// samma funktion som att lägga till kommentarer i blog
 module.exports = { findOrCreate };

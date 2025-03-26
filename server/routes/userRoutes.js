@@ -1,9 +1,11 @@
+// Här sätter vi requerements till models, och services sökvägen
+
 const router = require('express').Router();
 const db = require('../models');
 const validate = require('validate.js');
 const userService = require("../services/userService");
 
-
+// Här skapar vi constraints för validate
 const constraints = {
   email: {
     length: {
@@ -24,6 +26,7 @@ const constraints = {
   }
 };
 
+// Fel meddelandena är handskrivna 
 // Hämta en specifik användare via ID
 router.get('/:id', (req, res) => {
   db.User.findByPk(req.params.id, { attributes: { exclude: ['password'] } })
@@ -48,7 +51,7 @@ router.get('/:id/getCart/', async (req, res) => {
 });
 
 
-// Skapa en ny användare 
+// Skapa en ny användare (så vi kan lägga till produkter i varukorgen kopplat till en användare)
 router.post('/', (req, res) => {
   const user = req.body;
   const invalidData = validate(user, constraints);
@@ -56,13 +59,20 @@ router.post('/', (req, res) => {
     res.status(400).json(invalidData);
   } else {
     db.User.create(user).then((newUser) => {
-      res.status(201).json({ id: newUser.id, email: newUser.email, first_Name: newUser.first_Name, last_Name: newUser.last_Name, created_At: newUser.created_At, updated_At: newUser.updated_At, password: newUser.password });
+      res.status(201).json({
+         id: newUser.id,
+        email: newUser.email, 
+        first_Name: newUser.first_Name, 
+        last_Name: newUser.last_Name, 
+        created_At: newUser.created_At, 
+        updated_At: newUser.updated_At, 
+        password: newUser.password });
     });
   }
 });
 
 
-// Uppdatera användare
+// Uppdatera användare (Om användaren vill byta någon information)
 router.put('/', (req, res) => {
   const user = req.body;
   const invalidData = validate(user, constraints);

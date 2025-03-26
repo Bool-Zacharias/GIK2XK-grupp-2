@@ -40,7 +40,6 @@ fs.readdirSync(__dirname)
 const { User, Cart, CartRow, Product, Rating } = db;
 
 // Definiera associationerna med CASCADE och icke-nullade foreign keys
-
 // En User har många Carts. Här sätts foreign key 'user_id' i Cart.
 // Vi specificerar både allowNull: false och onDelete: 'CASCADE' för att tvinga med referensintegritet.
 User.hasMany(Cart, { 
@@ -62,7 +61,7 @@ CartRow.belongsTo(Cart, {
   onDelete: 'CASCADE'
 });
 
-// En Product kan ha många CartRows. Om en Product tas bort (om det är meningsfullt) så tas även raderna bort.
+// En Product kan ha många CartRows. Om en Product tas bort så tas även raderna bort.
 Product.hasMany(CartRow, { 
   foreignKey: { name: 'product_id', allowNull: false },
   onDelete: 'CASCADE'
