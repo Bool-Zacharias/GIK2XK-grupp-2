@@ -100,33 +100,29 @@ router.delete('/', (req, res) => {
   });
 });
 
-// Lägg till i varukorg
-router.post('/:id/addToCart', (req, res) => {
+//lägga till i varukorgen
+router.post('/:id/addToCart', async (req, res) => {
   const { user_id, amount } = req.body;
 
-  db.Product.findByPk(req.params.id)
-    .then(product => {
-      if (!product) {
-        return res.status(404).json({ error: 'Produkten hittades inte.' });
-      }
-      return productService.findOrCreate(user_id)
-    .then(cartResult => {
-      const cart = cartResult.data;
-      return db.CartRow.create({
+  try {
+    const product = await db.Product.findByPk(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Produkten hittades inte.' });
+
+    const cartResult = await productService.findOrCreate(user_id);
+    const cart = cartResult.data;
+
+    const cartRow = await db.CartRow.create({
       cart_id: cart.id,
       product_id: product.id,
-      amount: Number(amount)
+      amount: Number(amount),
     });
-  });
 
-    })
-    .then(cartRow => {
-      res.status(201).json(cartRow);
-    })
-    .catch(error => {
-      res.status(500).json({ error: error.message });
-    });
-  });
+    res.status(201).json(cartRow);
+  } catch (error) {
+    console.error("SERVERFEL:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 module.exports = router;
