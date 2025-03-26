@@ -48,12 +48,12 @@ export const updateProductRating = async (id, rating) => {
   }
 };
 
-
-// Uppdatera en produkt
+//Ändra produkt
 export const updateProduct = async (id, updatedProduct) => {
   try {
-    const response = await axios.put(`http://localhost:5000/product/`, updatedProduct,{
-      data: {id}
+    const response = await axios.put(`http://localhost:5000/product/`, {
+      id,
+      ...updatedProduct,
     });
     return response.data;
   } catch (error) {
@@ -61,6 +61,7 @@ export const updateProduct = async (id, updatedProduct) => {
     throw error;
   }
 };
+
 
 // Radera en produkt (tydligen fungerade detta istället för att skicka in id som parameter)
 export const deleteProduct = async (id) => {
