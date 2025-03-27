@@ -77,72 +77,7 @@ const AdminPage = () => {
         </TextField>
       </div>
 
-      {/* Visa produkt-id-fält om vi redigerar eller tar bort */}
-      {(mode === "edit" || mode === "delete") && (
-        <TextField
-          label="Produkt-ID"
-          name="productId"
-          value={productId}
-          onChange={(e) => setProductId(e.target.value)}
-          fullWidth
-          margin="normal"
-          required
-        />
-      )}
-
-      {/* Formulär för att skapa eller redigera produkter */}
-      {(mode === "create" || mode === "edit") && (
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Title"
-            name="title"
-            value={productData.title}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Pris"
-            name="price"
-            type="number"
-            value={productData.price}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Bild-URL"
-            name="image"
-            value={productData.image}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Kort beskrivning"
-            name="description"
-            value={productData.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Full beskrivning"
-            name="fullDescription"
-            value={productData.fullDescription}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary">
-            {mode === "create" ? "Skapa produkt" : "Spara ändringar"}
-          </Button>
-        </form>
-      )}
+      {mode === 'create'}
 
       {/* Formulär för att radera produkt */}
       {mode === "delete" && (
