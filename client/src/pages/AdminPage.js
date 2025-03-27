@@ -88,7 +88,7 @@ const AdminPage = () => {
         />
       )}
 
-      {(mode === "create" || mode === "edit") && (
+      {(mode === "create") && (
         <AddProductForm
           productData={productData}
           onChange={handleChange}
