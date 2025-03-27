@@ -4,7 +4,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchProductById, updateProductRating } from "../services/ProductService";
-import { Container, Typography, Card, CardMedia, CardContent, Rating, Button } from "@mui/material";
+import { Container, Typography, Card, CardMedia, CardContent, Rating, Button,TextField } from "@mui/material";
 import RatingBreakdown from "../components/RatingBreakdown";
 import { addToCart } from "../services/CartServices";
 import { CalcAverageRating } from "../components/CalcAverageRating";
@@ -13,6 +13,7 @@ const ProductDetails = () => {
   const { id } = useParams(); // Hämtar produktens ID från URL
   const [product, setProduct] = useState(null); // Produktdata
   const [userRating, setUserRating] = useState(0); // Användarens valda betyg
+  const [amount, setAmount] = useState(1); //För att kunna välja mer än 1 produkt
 
   // Hämta produktdata vid laddning
   useEffect(() => {
@@ -20,9 +21,6 @@ const ProductDetails = () => {
       setProduct(data);
     });
   }, [id]);
-
-// Snittbetyg
-const averageRating = CalcAverageRating(product.ratings);
 
   // Hanterar användarens klick på betyg
   const handleRatingChange = async (newValue) => {
@@ -40,6 +38,9 @@ const averageRating = CalcAverageRating(product.ratings);
     }
   };
   if (!product) return <Typography variant="h5">Laddar...</Typography>;
+
+  // Snittbetyg
+const averageRating = CalcAverageRating(product.ratings);
   return (
     <Container className="container">
       <Card>
@@ -84,12 +85,12 @@ const averageRating = CalcAverageRating(product.ratings);
           </div>
 
           {/* Lägg till i varukorg */}
+          <TextField label="Antal" type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} />
           <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
             <Button
               variant="contained"
               color="primary"
-              onClick={() => addToCart(product.id, 1)} // Test-användare med ID 1
-            >
+              onClick={() => addToCart(product.id, 1, amount)}>
               Lägg till i varukorg
             </Button>
           </div>

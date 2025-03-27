@@ -2,7 +2,8 @@
 import React, { useEffect, useState } from "react";
 import { fetchProducts } from "../services/ProductService";
 import ProductCard from "../components/ProductCard";
-import { Grid, Container, Typography } from "@mui/material";
+import { Grid2, Container, Typography } from "@mui/material";
+import { CalcAverageRating } from "../components/CalcAverageRating";
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]); // Lista med produkter
@@ -15,19 +16,20 @@ const ProductPage = () => {
     fetchProducts().then(setProducts);
   }, []);
 
+  // props som skickas till productCard, parent och child element
   return (
     <Container>
-      {/* Rubrik för sidan */}
       <Typography variant="h3" gutterBottom>Produktlista</Typography>
-
-      {/* Grid-layout med alla produkter */}
-      <Grid container spacing={4}>
-        {products.map(product => (
-          <Grid item key={product.id} xs={12} sm={6} md={4}>
-            <ProductCard product={product} userId={userId} />
-          </Grid>
-        ))}
-      </Grid>
+      <Grid2 container spacing={4}>
+        {products.map((product) => {
+          const averageRating = CalcAverageRating(product.ratings);
+          return (
+            <Grid2 item key={product.id} xs={12} sm={6} md={4}>
+              <ProductCard product={product} averageRating={averageRating} userId={userId} />
+            </Grid2>
+          );
+        })}
+      </Grid2>
     </Container>
   );
 };

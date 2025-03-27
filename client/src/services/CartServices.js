@@ -5,13 +5,13 @@ import axios from './api';
 
 const API_BASE_URL = "http://localhost:5000/product";
 
-// Lägger till en produkt i varukorgen för en viss användare
-// Parametrar: produkt-id och user_id
-export const addToCart = async (id, user_id) => {
+// Lägg till en produkt i varukorgen för en viss användare
+// Parametrar: produkt-id, user_id och amount (standardvärde 1)
+export const addToCart = async (id, user_id, amount = 1) => {
   try {
     const response = await axios.post(`${API_BASE_URL}/${id}/addToCart`, {
       user_id: user_id,
-      amount: 1, // Lägger alltid till 1 st
+      amount: amount,
     });
     return response.data;
   } catch (error) {
