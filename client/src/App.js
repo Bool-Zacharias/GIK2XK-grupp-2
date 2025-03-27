@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // Komponenter och sidor
 import Navbar from "./components/Navbar";
 import Home from "./pages/HomePage";
-import ProductPage from "./pages/Productpage";
+import ProductPage from "./pages/ProductPage";
 import ProductDetails from "./pages/ProductDetails";
 import CartPage from "./pages/CartPage";
 import AdminPage from "./pages/AdminPage";
