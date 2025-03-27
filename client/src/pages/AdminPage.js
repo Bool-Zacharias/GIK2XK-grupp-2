@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { createProduct, updateProduct, deleteProduct } from "../services/ProductService";
 import { Container, TextField, Button, Typography, MenuItem } from "@mui/material";
+import ProductForm from "../components/ProductForm";
 
 const AdminPage = () => {
-  const [mode, setMode] = useState("create"); // Hanterar om vi ska skapa, redigera eller ta bort produkt
-  const [productId, setProductId] = useState(""); // Används vid redigering eller borttagning
+  const [mode, setMode] = useState("create");
+  const [productId, setProductId] = useState("");
   const [productData, setProductData] = useState({
     title: "",
     price: "",
@@ -13,12 +14,10 @@ const AdminPage = () => {
     fullDescription: "",
   });
 
-  // Uppdaterar produktdata när användaren skriver i formuläret
   const handleChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
 
-  // Skickar formuläret beroende på valt läge (skapa/redigera/radera)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,7 +40,6 @@ const AdminPage = () => {
         alert("Produkt raderad!");
       }
 
-      // Töm fälten efter åtgärd
       setProductData({
         title: "",
         price: "",
@@ -52,7 +50,7 @@ const AdminPage = () => {
       setProductId("");
     } catch (error) {
       console.error(error);
-      alert("Något gick fel. Kontrollera konsolen för detaljer.");
+      alert("Något gick fel.");
     }
   };
 
@@ -62,7 +60,6 @@ const AdminPage = () => {
         Admin: {mode === "create" ? "Lägg till" : mode === "edit" ? "Redigera" : "Ta bort"} produkt
       </Typography>
 
-      {/* Välj åtgärd (skapa/redigera/radera) */}
       <div style={{ marginBottom: "20px" }}>
         <TextField
           select
@@ -77,9 +74,27 @@ const AdminPage = () => {
         </TextField>
       </div>
 
-      {mode === 'create'}
+      {(mode === "edit" || mode === "delete") && (
+        <TextField
+          label="Produkt-ID"
+          name="productId"
+          value={productId}
+          onChange={(e) => setProductId(e.target.value)}
+          fullWidth
+          margin="normal"
+          required
+        />
+      )}
 
-      {/* Formulär för att radera produkt */}
+      {(mode === "create" || mode === "edit") && (
+        <ProductForm
+          productData={productData}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          submitLabel={mode === "create" ? "Skapa produkt" : "Spara ändringar"}
+        />
+      )}
+
       {mode === "delete" && (
         <form onSubmit={handleSubmit}>
           <Button type="submit" variant="contained" color="secondary">
