@@ -1,10 +1,10 @@
-// src/pages/ProductList.jsx
+
 import React, { useEffect, useState } from "react";
 import { fetchProducts } from "../services/ProductService";
 import ProductCard from "../components/ProductCard";
 import { Grid, Container, Typography } from "@mui/material";
 
-const ProductList = () => {
+const ProductPage = () => {
   const [products, setProducts] = useState([]); // Lista med produkter
 
   // Hårdkodad användare för test – byt ut mot inloggad användare vid behov (för demo)
@@ -32,4 +32,4 @@ const ProductList = () => {
   );
 };
 
-export default ProductList;
+export default ProductPage;

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// Hämtar varukorg från backend baserat på användarens ID
 import { fetchCartByUser } from "../services/CartServices";
 import { Container, Typography, List, ListItem, ListItemText } from "@mui/material";
 
