@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography } from "@mui/material";
-import AddProductForm from "./AddProductForm";
+import EditProductForm from "./AddProductForm";
 import { updateProduct, fetchProductById } from "../services/ProductService";
 
 const EditProduct = ({setProducts}) => {
@@ -39,7 +39,7 @@ const EditProduct = ({setProducts}) => {
   return (
     <Container>
       <Typography variant="h4">Redigera Produkt</Typography>
-      <AddProductForm
+      <EditProductForm
         productData={productData}
         onChange={handleChange}
         onSubmit={handleSubmit}
