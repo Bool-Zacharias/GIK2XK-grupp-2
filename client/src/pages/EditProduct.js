@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { fetchProductById, updateProduct } from "../services/ProductService";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, TextField, Button, Typography } from "@mui/material";
 
@@ -17,12 +18,13 @@ const EditProduct = () => {
   });
 
   useEffect(() => {
-    // Förifyller formuläret om vi redigerar
     if (isEditing) {
-      const existingProduct = product.find((p) => p.id === id);
-      if (existingProduct) {
-        setProduct(existingProduct);
-      }
+      // Hämta den befintliga produkten från backend
+      fetchProductById(id).then((data) => {
+        if (data) {
+          setProduct(data);
+        }
+      });
     }
   }, [id, isEditing]);
 
@@ -31,13 +33,13 @@ const EditProduct = () => {
     setProduct({ ...product, [e.target.title]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e) => { 
     e.preventDefault();
 
     if (isEditing) {
       // Uppdaterar produkten i listan
-      product = product.map((p) => (p.id === id ? product : p)); // ?????????
-    } else {
+      updateProduct(id, product);
+     } else {
       // Lägger till ny produkt
       product.id = new Date().getTime().toString();
       product.push(product);
