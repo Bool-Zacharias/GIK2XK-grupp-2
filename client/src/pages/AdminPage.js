@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { createProduct, updateProduct, deleteProduct } from "../services/ProductService";
 import { Container, TextField, Button, Typography, MenuItem } from "@mui/material";
-import ProductForm from "../components/ProductForm";
+import AddProductForm from "../components/AddProductForm";
+import EditProductForm from "../components/EditProductForm";
+
 
 const AdminPage = () => {
   const [mode, setMode] = useState("create");
@@ -54,6 +56,9 @@ const AdminPage = () => {
     }
   };
 
+  // Mode edit eller delete mode lägger till produkt id till textfield och anroppar setProductId efter en händelse
+  // Mode create eller edit anroppar productForm komponenten, hämtar layout från admin page deklarationen i början
+  // Mode delete hämtar id layout och ger bara 1 alternativ
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
@@ -74,20 +79,17 @@ const AdminPage = () => {
         </TextField>
       </div>
 
-      {(mode === "edit" || mode === "delete") && (
-        <TextField
-          label="Produkt-ID"
-          name="productId"
-          value={productId}
-          onChange={(e) => setProductId(e.target.value)}
-          fullWidth
-          margin="normal"
-          required
+      {(mode === "edit") && (
+        <EditProductForm
+          productData={productData}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          submitLabel={mode === "create" ? "Skapa produkt" : "Spara ändringar"}
         />
       )}
 
       {(mode === "create" || mode === "edit") && (
-        <ProductForm
+        <AddProductForm
           productData={productData}
           onChange={handleChange}
           onSubmit={handleSubmit}
@@ -97,6 +99,15 @@ const AdminPage = () => {
 
       {mode === "delete" && (
         <form onSubmit={handleSubmit}>
+          <TextField
+            label="Produkt-ID"
+            name="productId"
+            value={productId}
+            onChange={(e) => setProductId(e.target.value)}
+            fullWidth
+            margin="normal"
+            required
+          />
           <Button type="submit" variant="contained" color="secondary">
             Ta bort produkt
           </Button>

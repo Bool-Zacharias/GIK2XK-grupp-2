@@ -1,9 +1,20 @@
 import React from "react";
 import { TextField, Button } from "@mui/material";
 
+// Strukturk för formuläret där man som admin kan ändra en produkt
 const ProductForm = ({ productData, onChange, onSubmit, submitLabel }) => {
   return (
     <form onSubmit={onSubmit}>
+      <TextField
+        label="product-ID"
+        name="id"
+        type="number"
+        value={productData.id}
+        onChange={onChange}
+        fullWidth
+        margin="normal"
+        required
+      />
       <TextField
         label="Titel"
         name="title"

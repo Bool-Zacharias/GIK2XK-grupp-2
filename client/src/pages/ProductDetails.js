@@ -7,6 +7,7 @@ import { fetchProductById, updateProductRating } from "../services/ProductServic
 import { Container, Typography, Card, CardMedia, CardContent, Rating, Button } from "@mui/material";
 import RatingBreakdown from "../components/RatingBreakdown";
 import { addToCart } from "../services/CartServices";
+import { CalcAverageRating } from "../components/CalcAverageRating";
 
 const ProductDetails = () => {
   const { id } = useParams(); // Hämtar produktens ID från URL
@@ -20,12 +21,8 @@ const ProductDetails = () => {
     });
   }, [id]);
 
-  // Beräknar snittbetyg
-  const calculateAverage = (ratings) => {
-    if (!ratings || ratings.length === 0) return "Ingen än";
-    const sum = ratings.reduce((a, b) => a + b, 0);
-    return (sum / ratings.length).toFixed(1);
-  };
+// Snittbetyg
+const averageRating = CalcAverageRating(product.ratings);
 
   // Hanterar användarens klick på betyg
   const handleRatingChange = async (newValue) => {
@@ -38,15 +35,11 @@ const ProductDetails = () => {
         setProduct({
           ...product,
           ratings: updatedProduct.ratings || [],
-        });
+        }); 
       }
     }
   };
-
   if (!product) return <Typography variant="h5">Laddar...</Typography>;
-
-  const averageRating = calculateAverage(product.ratings);
-
   return (
     <Container className="container">
       <Card>
