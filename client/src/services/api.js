@@ -1,4 +1,3 @@
-// api.js
 // Konfigurerar Axios med en bas-URL för alla HTTP-anrop till backend (API-servern)
 import axios from 'axios';
 

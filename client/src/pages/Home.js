@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 // Startsida med välkomsttext och navigering till produkter/varukorg
 const Home = () => {
   return (
-    <Container maxWidth="lg" style={{ textAlign: "center", paddingTop: "50px" }}>
+    <Container maxWidth="lg" sx={{ textAlign: "center", paddingTop: "50px" }}>
       {/* Välkomnande huvudrubrik */}
-      <Typography variant="h2" gutterBottom style={{ fontWeight: "bold", color: "#00448c" }}>
+      <Typography variant="h2" gutterBottom sx={{ fontWeight: "bold", color: "#00448c" }}>
         Välkommen till Min Webbutik!
       </Typography>
       
@@ -28,7 +28,7 @@ const Home = () => {
       </Box>
 
       {/* Fördelar med att handla hos oss */}
-      <Box mt={6} p={4} style={{ backgroundColor: "#ffffff", borderRadius: "8px", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.67)" }}>
+      <Box mt={6} p={4} sx={{ backgroundColor: "#ffffff", borderRadius: "8px", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.67)" }}>
         <Typography variant="h4" gutterBottom style={{ color: "#00448c" }}>
           Varför Handla Hos Oss?
         </Typography>

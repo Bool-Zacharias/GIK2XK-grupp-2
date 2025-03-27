@@ -26,6 +26,7 @@ const EditProduct = () => {
     }
   }, [id, isEditing]);
 
+  // Hämtar alla värden från product sen använder vi nya värden
   const handleChange = (e) => {
     setProduct({ ...product, [e.target.title]: e.target.value });
   };
@@ -34,10 +35,10 @@ const EditProduct = () => {
     e.preventDefault();
 
     if (isEditing) {
-      // Uppdaterar produkten i listan (lokalt)
-      product = product.map((p) => (p.id === id ? product : p));
+      // Uppdaterar produkten i listan
+      product = product.map((p) => (p.id === id ? product : p)); // ?????????
     } else {
-      // Lägger till ny produkt (lokalt)
+      // Lägger till ny produkt
       product.id = new Date().getTime().toString();
       product.push(product);
     }

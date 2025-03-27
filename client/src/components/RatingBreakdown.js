@@ -3,6 +3,7 @@
 // getCount(star) räknar antal gånger ett visst betyg förekommer i listan.
 // percent räknar ut andelen i procent för varje stjärn-nivå.
 // LinearProgress visar detta visuellt.
+// Vi använder sx för att styla koden
 
 import React from "react";
 import { Box, Typography, LinearProgress } from "@mui/material";

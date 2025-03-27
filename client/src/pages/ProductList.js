@@ -7,7 +7,7 @@ import { Grid, Container, Typography } from "@mui/material";
 const ProductList = () => {
   const [products, setProducts] = useState([]); // Lista med produkter
 
-  // Hardkodad användare för test – byt ut mot inloggad användare vid behov
+  // Hårdkodad användare för test – byt ut mot inloggad användare vid behov (för demo)
   const userId = 1;
 
   // Hämtar produktdata när sidan laddas

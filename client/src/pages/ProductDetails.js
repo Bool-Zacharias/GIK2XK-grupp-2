@@ -76,7 +76,7 @@ const ProductDetails = () => {
               <Rating value={parseFloat(averageRating) || 0} precision={0.1} readOnly />
             </Typography>
 
-            {/* Visar betygsfördelning (staplar) */}
+            {/* Visar betygsfördelning */}
             <RatingBreakdown ratings={product.ratings} />
 
             {/* Användare kan sätta nytt betyg */}
