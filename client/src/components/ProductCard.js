@@ -6,7 +6,7 @@ import { CalcAverageRating } from "./CalcAverageRating";
 // Komponent för att visa varje enskild produkt
 const ProductCard = ({ product }) => {
   // Beräkna genomsnittligt betyg
-  const averageRating = CalcAverageRating(Rating); 
+  const averageRating = CalcAverageRating(product.ratings);
 
   return (
     <Card>
