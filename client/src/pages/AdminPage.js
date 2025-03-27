@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { createProduct, updateProduct, deleteProduct } from "../services/ProductService";
 import { Container, TextField, Button, Typography, MenuItem } from "@mui/material";
+import ProductForm from "../components/ProductForm";
 
 const AdminPage = () => {
-  const [mode, setMode] = useState("create"); // Hanterar om vi ska skapa, redigera eller ta bort produkt
-  const [productId, setProductId] = useState(""); // Används vid redigering eller borttagning
+  const [mode, setMode] = useState("create");
+  const [productId, setProductId] = useState("");
   const [productData, setProductData] = useState({
     title: "",
     price: "",
@@ -13,12 +14,10 @@ const AdminPage = () => {
     fullDescription: "",
   });
 
-  // Uppdaterar produktdata när användaren skriver i formuläret
   const handleChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   };
 
-  // Skickar formuläret beroende på valt läge (skapa/redigera/radera)
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -41,7 +40,6 @@ const AdminPage = () => {
         alert("Produkt raderad!");
       }
 
-      // Töm fälten efter åtgärd
       setProductData({
         title: "",
         price: "",
@@ -52,7 +50,7 @@ const AdminPage = () => {
       setProductId("");
     } catch (error) {
       console.error(error);
-      alert("Något gick fel. Kontrollera konsolen för detaljer.");
+      alert("Något gick fel.");
     }
   };
 
@@ -62,7 +60,6 @@ const AdminPage = () => {
         Admin: {mode === "create" ? "Lägg till" : mode === "edit" ? "Redigera" : "Ta bort"} produkt
       </Typography>
 
-      {/* Välj åtgärd (skapa/redigera/radera) */}
       <div style={{ marginBottom: "20px" }}>
         <TextField
           select
@@ -77,7 +74,6 @@ const AdminPage = () => {
         </TextField>
       </div>
 
-      {/* Visa produkt-id-fält om vi redigerar eller tar bort */}
       {(mode === "edit" || mode === "delete") && (
         <TextField
           label="Produkt-ID"
@@ -90,61 +86,15 @@ const AdminPage = () => {
         />
       )}
 
-      {/* Formulär för att skapa eller redigera produkter */}
       {(mode === "create" || mode === "edit") && (
-        <form onSubmit={handleSubmit}>
-          <TextField
-            label="Title"
-            name="title"
-            value={productData.title}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Pris"
-            name="price"
-            type="number"
-            value={productData.price}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Bild-URL"
-            name="image"
-            value={productData.image}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-          />
-          <TextField
-            label="Kort beskrivning"
-            name="description"
-            value={productData.description}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <TextField
-            label="Full beskrivning"
-            name="fullDescription"
-            value={productData.fullDescription}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            required
-          />
-          <Button type="submit" variant="contained" color="primary">
-            {mode === "create" ? "Skapa produkt" : "Spara ändringar"}
-          </Button>
-        </form>
+        <ProductForm
+          productData={productData}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          submitLabel={mode === "create" ? "Skapa produkt" : "Spara ändringar"}
+        />
       )}
 
-      {/* Formulär för att radera produkt */}
       {mode === "delete" && (
         <form onSubmit={handleSubmit}>
           <Button type="submit" variant="contained" color="secondary">
