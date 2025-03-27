@@ -14,7 +14,7 @@ var http = require('http');
 const db = require('../models/');
 db.sequelize
   .sync()
- // .sync({ force: true}) jao
+  //.sync({ force: true})
   .then(()=>{
     server.listen(port,()=>{
       console.log(`server running on localhost:${port}`);
