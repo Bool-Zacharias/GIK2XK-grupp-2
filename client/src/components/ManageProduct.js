@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Typography } from "@mui/material";
 import ProductForm from "./ProductForm";
+//Importerar funktioner från ProductService kopplat till backend
 import { updateProduct, fetchProductById } from "../services/ProductService";
 
 const EditProduct = ({ products, setProducts }) => {
