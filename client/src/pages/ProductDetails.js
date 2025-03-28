@@ -61,7 +61,7 @@ const averageRating = CalcAverageRating(product.ratings);
         >
           <div>
             <Typography variant="h4">{product.title}</Typography>
-            <Typography variant="h6">{product.fullDescription}</Typography>
+            <Typography variant="h6">{product.description}</Typography>
             <Typography variant="h5">Pris: {product.price} kr</Typography>
 
             {/* Visar snittbetyg */}

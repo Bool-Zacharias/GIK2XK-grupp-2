@@ -60,6 +60,7 @@ const AdminPage = () => {
     }
   };
 
+  // fixa mode create / edit i container
   // Mode edit eller delete mode lägger till produkt id till textfield och anroppar setProductId efter en händelse
   // Mode create eller edit anroppar productForm komponenten, hämtar layout från admin page deklarationen i början
   // Mode delete hämtar id layout och ger bara 1 alternativ
@@ -82,7 +83,7 @@ const AdminPage = () => {
           <MenuItem value="delete">Ta bort produkt</MenuItem>
         </TextField>
       </div>
-
+      
       {(mode === "edit") && (
         <EditProductForm
           productData={productData}
