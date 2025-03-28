@@ -4,7 +4,7 @@ import { Container, TextField, Button, Typography, MenuItem } from "@mui/materia
 import AddProductForm from "../components/AddProductForm";
 import EditProductForm from "../components/EditProductForm";
 
-
+// Admin hemsidan
 const AdminPage = () => {
   const [mode, setMode] = useState("create");
   const [productId, setProductId] = useState("");
@@ -16,14 +16,17 @@ const AdminPage = () => {
     fullDescription: "",
   });
 
+  // lyssnar efter ett event. sköter sedan ändring
   const handleChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
   
+    // extra steg för när vi hanterar id
     if (e.target.name === "id") {
       setProductId(e.target.value);
     }
   };
   
+  // Lyssnar efter event och jobbar med en try / catch för att fånga upp alla de olika lägen / modes som finns
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -46,6 +49,7 @@ const AdminPage = () => {
         alert("Produkt raderad!");
       }
 
+      // setter
       setProductData({
         title: "",
         price: "",
