@@ -60,7 +60,6 @@ const AdminPage = () => {
     }
   };
 
-  // fixa mode create / edit i container
   // Mode edit eller delete mode lägger till produkt id till textfield och anroppar setProductId efter en händelse
   // Mode create eller edit anroppar productForm komponenten, hämtar layout från admin page deklarationen i början
   // Mode delete hämtar id layout och ger bara 1 alternativ
@@ -89,7 +88,7 @@ const AdminPage = () => {
           productData={productData}
           onChange={handleChange}
           onSubmit={handleSubmit}
-          submitLabel={mode === "create" ? "Skapa produkt" : "Spara ändringar"}
+          submitLabel={mode === "edit" ? "Updatera produkt" : "Spara ändringar"}
         />
       )}
 
