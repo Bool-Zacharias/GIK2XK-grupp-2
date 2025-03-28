@@ -18,8 +18,12 @@ const AdminPage = () => {
 
   const handleChange = (e) => {
     setProductData({ ...productData, [e.target.name]: e.target.value });
+  
+    if (e.target.name === "id") {
+      setProductId(e.target.value);
+    }
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -62,7 +66,7 @@ const AdminPage = () => {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Admin: {mode === "create" ? "Lägg till" : mode === "edit" ? "Redigera" : "Ta bort"} produkt
+        Admin: {mode === "create" ? "Lägg till" : mode === "edit" ? "Redigera" : "delete"} produkt
       </Typography>
 
       <div style={{ marginBottom: "20px" }}>
