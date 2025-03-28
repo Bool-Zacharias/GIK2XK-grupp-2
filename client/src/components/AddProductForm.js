@@ -1,7 +1,7 @@
 import React from "react";
 import { TextField, Button } from "@mui/material";
 
-// Strukturk för formuläret där man som admin kan lägga till en produkt
+// Struktur för formuläret där man som admin kan lägga till en produkt
 const ProductForm = ({ productData, onChange, onSubmit, submitLabel }) => {
   return (
     <form onSubmit={onSubmit}>

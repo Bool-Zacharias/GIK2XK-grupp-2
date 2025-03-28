@@ -1,4 +1,4 @@
-// Uträking för snitt, fungerade inte som vi ville när de implementerades i kod direkt. Så vart enklare att göra en egen fil för det
+// Uträkning för snitt, fungerade inte som vi ville när de implementerades i kod direkt. Så vart enklare att göra en egen fil för det
 
 export const CalcAverageRating = (ratings = []) => {
     if (ratings.length === 0) return "Ingen än";
